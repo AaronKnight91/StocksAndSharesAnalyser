@@ -48,10 +48,10 @@ class Company:
         payout_ratio = self._html[48].find_all("td",{"class":""})
         return payout_ratio[1].text[:-1]
     
-company = Company("https://uk.investing.com/equities/avast-holdings-ratios")
-print(company._pe_ratio)
-print(company._ps_ratio)
-print(company._cash_flow)
-print(company._pb_ratio)
-print(company._dividend_yield)
-print(company._payout_ratio)
+#company = Company("https://uk.investing.com/equities/avast-holdings-ratios")
+#print(company._pe_ratio)
+#print(company._ps_ratio)
+#print(company._cash_flow)
+#print(company._pb_ratio)
+#print(company._dividend_yield)
+#print(company._payout_ratio)
