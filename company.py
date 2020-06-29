@@ -16,13 +16,12 @@ class Company:
 
         soup = bs4.BeautifulSoup(webpage,"html.parser")
         all = soup.find_all("tr",{"class":"child"})
-
-        result = all[0].find_all("td",{"class":""})
-
-        return result
+        
+        return all
 
     def get_pe_ratio(self):
-        return self._html[1].text
+        pe_ratio = self._html[0].find_all("td",{"class":""})
+        return pe_ratio[1].text
         
 company = Company("https://uk.investing.com/equities/avast-holdings-ratios")
 print(company._pe_ratio)
