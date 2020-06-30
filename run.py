@@ -42,10 +42,24 @@ def run():
                        float(company._dividend_yield),
                        float(company._payout_ratio))
             cdb.__del__()
-            time.sleep(1)
+            time.sleep(1) # Make programme sleep for 1 second
 
     df = pd.DataFrame(l)
     print(df)
-            
+
+    results = analyse_results(df)
+    print(results)
+    
+def analyse_results(df):
+
+    df_copy = df # Make a copy of the DataFrame
+    df_copy = df_copy.drop(df[df.pe_ratio > 15].index)
+    df_copy = df_copy.drop(df[df.ps_ratio > 0.8].index)
+    df_copy = df_copy.drop(df[df.cash_flow > 10].index)
+    df_copy = df_copy.drop(df[df.pb_ratio < 1].index)
+    df_copy = df_copy.drop(df[df.payout_ratio < 35].index)
+
+    return df_copy
+    
 if __name__ == "__main__":
     run()
