@@ -11,7 +11,7 @@ def run():
     today = datetime.now().strftime("%Y%m%d")
 
     l = []
-    with open("freetrade_uk_shares.csv","r",encoding='cp1252') as csv_file:
+    with open("data/freetrade_uk_shares.csv","r",encoding='cp1252') as csv_file:
         reader = csv.reader(csv_file)
 
         for i, row in enumerate(reader):
@@ -33,7 +33,7 @@ def run():
                  "payout_ratio":company._payout_ratio}
             l.append(d)
               
-            cdb = CompanyDatabase("companies.db",str(row[1]).replace("-","").replace("&","").replace("'",""))
+            cdb = CompanyDatabase("data/companies.db",str(row[1]).replace("-","").replace("&","").replace("'",""))
             cdb.insert(today,
                        float(company._pe_ratio),
                        float(company._ps_ratio),
