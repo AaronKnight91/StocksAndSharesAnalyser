@@ -25,29 +25,65 @@ class Company:
         return all
 
     def get_pe_ratio(self):
-        pe_ratio = self._html[0].find_all("td",{"class":""})
-        return pe_ratio[1].text
-
+        try:
+            pe_ratio = self._html[0].find_all("td",{"class":""})
+            if pe_ratio[1].text.replace(",","") == "-" or pe_ratio[1].text.replace(",","") == "":
+                return -999
+            else:
+                return float(pe_ratio[1].text.replace(",",""))
+        except:
+            return -999
+        
     def get_ps_ratio(self):
-        ps_ratio = self._html[1].find_all("td",{"class":""})
-        return ps_ratio[1].text
-
+        try:
+            ps_ratio = self._html[1].find_all("td",{"class":""})
+            if ps_ratio[1].text.replace(",","") == "-" or ps_ratio[1].text.replace(",","") == "" :
+                return -999
+            else:
+                return float(ps_ratio[1].text.replace(",",""))
+        except:
+            return -999
+        
     def get_cash_flow(self):
-        cash_flow = self._html[3].find_all("td",{"class":""})
-        return cash_flow[1].text
-
+        try:
+            cash_flow = self._html[3].find_all("td",{"class":""})
+            if cash_flow[1].text.replace(",","") == "-" or cash_flow[1].text.replace(",","") == "":
+                return -999
+            else:
+                return float(cash_flow[1].text.replace(",",""))
+        except:
+            return -999
+        
     def get_pb_ratio(self):
-        pb_ratio = self._html[4].find_all("td",{"class":""})
-        return pb_ratio[1].text
-
+        try:
+            pb_ratio = self._html[4].find_all("td",{"class":""})
+            if pb_ratio[1].text.replace(",","") == "-" or pb_ratio[1].text.replace(",","") == "":
+                return -999
+            else:
+                return float(pb_ratio[1].text.replace(",",""))
+        except:
+            return -999
+        
     def get_dividend_yield(self):
-        dividend_yield = self._html[45].find_all("td",{"class":""})
-        return dividend_yield[1].text[:-1]
-
+        try:
+            dividend_yield = self._html[45].find_all("td",{"class":""})
+            if dividend_yield[1].text[:-1].replace(",","") == "-" or dividend_yield[1].text[:-1].replace(",","") == "":
+                return -999
+            else:
+                return float(dividend_yield[1].text[:-1].replace(",",""))
+        except:
+            return -999
+            
     def get_payout_ratio(self):
-        payout_ratio = self._html[48].find_all("td",{"class":""})
-        return payout_ratio[1].text[:-1]
-    
+        try:
+            payout_ratio = self._html[48].find_all("td",{"class":""})
+            if payout_ratio[1].text[:-1].replace(",","") == "-" or payout_ratio[1].text[:-1].replace(",","") == "":
+                return -999
+            else:
+                return float(payout_ratio[1].text[:-1].replace(",",""))
+        except:
+            return -999
+        
 #company = Company("https://uk.investing.com/equities/avast-holdings-ratios")
 #print(company._pe_ratio)
 #print(company._ps_ratio)

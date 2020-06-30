@@ -1,33 +1,46 @@
 import csv
 import time
+from datetime import datetime
 
 from company import Company
 from company_database import CompanyDatabase
 
 def run():
 
-    with open("freetrade_uk_shares.csv","r") as csv_file:
+    today = datetime.now().strftime("%Y%m%d")
+
+    with open("freetrade_uk_shares.csv","r",encoding='cp1252') as csv_file:
         reader = csv.reader(csv_file)
+
+        l = []
         for i, row in enumerate(reader):
             if i == 0:
                 continue
-            if not row[4] == "":
-                print(type(row[0]), row[0])
-                company = Company(row[4])
-                print(str(row[0]))
-                cdb = CompanyDatabase("companies.db",str(row[0]))
-                print("DEBUG")
-                cdb.insert("TODAY",
-                           float(company._pe_ratio),
-                           float(company._ps_ratio),
-                           float(company._cash_flow),
-                           float(company._pb_ratio),
-                           float(company._dividend_yield),
-                           float(company._payout_ratio))
-                cdb.__del__()
-                time.sleep(1)
-            else:
+            if row[4] == "":
                 continue
-  
+            #d = {}
+            print(row[0])
+            company = Company(row[4])
+            #d = {"pe_ratio":company._pe_ratio,
+            #     "ps_ratio":company._ps_ratio,
+            #     "cash_flow":company._cash_flow,
+            #     "pb_ratio":company._pb_ratio,
+            #     "dividend_yield":company._dividend_yield,
+            #     "payout_ratio":company._payout_ratio}
+              
+            cdb = CompanyDatabase("companies.db",str(row[0]))
+            cdb.insert(today,
+                       float(company._pe_ratio),
+                       float(company._ps_ratio),
+                       float(company._cash_flow),
+                       float(company._pb_ratio),
+                       float(company._dividend_yield),
+                       float(company._payout_ratio))
+            cdb.__del__()
+            time.sleep(1)
+           
+        #for i in l:
+        #    print(i)
+            
 if __name__ == "__main__":
     run()
