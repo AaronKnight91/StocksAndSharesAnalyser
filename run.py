@@ -16,11 +16,13 @@ def run():
         for i, row in enumerate(reader):
             if i == 0:
                 continue
-            if row[4] == "":
+            if row[5] == "":
                 continue
+
+            print("Scrapping data for %s" % row[0])
+
             #d = {}
-            print(row[0])
-            company = Company(row[4])
+            company = Company(row[5])
             #d = {"pe_ratio":company._pe_ratio,
             #     "ps_ratio":company._ps_ratio,
             #     "cash_flow":company._cash_flow,
@@ -28,7 +30,7 @@ def run():
             #     "dividend_yield":company._dividend_yield,
             #     "payout_ratio":company._payout_ratio}
               
-            cdb = CompanyDatabase("companies.db",str(row[0]))
+            cdb = CompanyDatabase("companies.db",str(row[1]).replace("-","").replace("&","").replace("'",""))
             cdb.insert(today,
                        float(company._pe_ratio),
                        float(company._ps_ratio),
