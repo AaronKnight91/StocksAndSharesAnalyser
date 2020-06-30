@@ -5,6 +5,7 @@ import pandas as pd
 
 from company import Company
 from company_database import CompanyDatabase
+from analysis import AnalyseRatios
 
 def run():
 
@@ -52,12 +53,22 @@ def run():
     
 def analyse_results(df):
 
-    df_copy = df # Make a copy of the DataFrame
-    df_copy = df_copy.drop(df[df.pe_ratio > 15].index)
-    df_copy = df_copy.drop(df[df.ps_ratio > 0.8].index)
-    df_copy = df_copy.drop(df[df.cash_flow > 10].index)
-    df_copy = df_copy.drop(df[df.pb_ratio < 1].index)
-    df_copy = df_copy.drop(df[df.payout_ratio < 35].index)
+    analysis = AnalyseRatios(df)
+    analysis.analyse_pe_ratio(15)
+    analysis.analyse_ps_ratio(0.8)
+    analysis.analyse_cash_flow(10)
+    analysis.analyse_pb_ratio(1)
+    analysis.analyse_dividend_yield(10)
+    analysis.analyse_payout_ratio(35)
+
+    return analysis._df
+    
+#    df_copy = df # Make a copy of the DataFrame
+#    df_copy = df_copy.drop(df[df.pe_ratio > 15].index)
+#    df_copy = df_copy.drop(df[df.ps_ratio > 0.8].index)
+#    df_copy = df_copy.drop(df[df.cash_flow > 10].index)
+#    df_copy = df_copy.drop(df[df.pb_ratio < 1].index)
+#    df_copy = df_copy.drop(df[df.payout_ratio < 35].index)
 
     return df_copy
     
