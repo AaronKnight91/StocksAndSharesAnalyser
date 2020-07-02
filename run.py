@@ -42,6 +42,9 @@ def run():
                            float(company._pb_ratio),
                            float(company._dividend_yield),
                            float(company._payout_ratio))
+                
+                cdb.remove_duplicate_rows()
+
                 cdb.__del__()
                 time.sleep(1) # Make programme sleep for 1 second
             except Exception as error:
@@ -51,7 +54,6 @@ def run():
 
     print("# Analysing results...")
     results = analyse_results(df)
-    #print("Results = ", results)
     
 def analyse_results(df):
 

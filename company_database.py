@@ -29,6 +29,10 @@ class CompanyDatabase:
                          (pe_ratio, ps_ratio, cash_flow, pb_ratio, dividend_yield, payout_ratio,id))
         self._conn.commit()
 
+    def remove_duplicate_rows(self):
+        self._cur.execute("DELETE From %s WHERE id not in (SELECT max(id) from %s group by date, pe_ratio, ps_ratio, cash_flow, pb_ratio, dividend_yield, payout_ratio)" % (self._table, self._table))
+        self._conn.commit()
+
     def delete(self, id):
         self._cur.execute("DELETE FROM %s WHERE id=?" % self._table,(id,))
         self._conn.commit()
