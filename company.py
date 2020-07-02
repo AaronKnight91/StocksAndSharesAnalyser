@@ -48,7 +48,14 @@ class Company:
         try:
             cash_flow = self._html[3].find_all("td",{"class":""})
             if cash_flow[1].text.replace(",","") == "-" or cash_flow[1].text.replace(",","") == "":
-                return -999
+                try:
+                    cash_flow = self._html[2].find_all("td",{"class":""})
+                    if cash_flow[1].text.replace(",","") == "-" or cash_flow[1].text.replace(",","") == "":
+                        return -999
+                    else:
+                        return float(cash_flow[1].text.replace(",",""))
+                except:
+                    return -999
             else:
                 return float(cash_flow[1].text.replace(",",""))
         except:
