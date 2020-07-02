@@ -21,7 +21,7 @@ def run():
             if row[5] == "":
                 continue
 
-            print("Scrapping data for %s" % row[0])
+            print("Scrapping data for %s, %s" % (row[0], row[2]))
             try:
                 d = {}
                 company = Company(row[5])
@@ -49,8 +49,9 @@ def run():
                 
     df = pd.DataFrame(l)
 
+    print("# Analysing results...")
     results = analyse_results(df)
-    print("Results = ", results)
+    #print("Results = ", results)
     
 def analyse_results(df):
 
