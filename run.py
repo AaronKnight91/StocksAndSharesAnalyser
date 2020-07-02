@@ -22,45 +22,48 @@ def run():
                 continue
 
             print("Scrapping data for %s" % row[0])
-
-            d = {}
-            company = Company(row[5])
-            d = {"Company Name": row[0],
-                 "pe_ratio":company._pe_ratio,
-                 "ps_ratio":company._ps_ratio,
-                 "cash_flow":company._cash_flow,
-                 "pb_ratio":company._pb_ratio,
-                 "dividend_yield":company._dividend_yield,
-                 "payout_ratio":company._payout_ratio}
-            l.append(d)
+            try:
+                d = {}
+                company = Company(row[5])
+                d = {"Company Name": row[0],
+                     "pe_ratio":company._pe_ratio,
+                     "ps_ratio":company._ps_ratio,
+                     "cash_flow":company._cash_flow,
+                     "pb_ratio":company._pb_ratio,
+                     "dividend_yield":company._dividend_yield,
+                     "payout_ratio":company._payout_ratio}
+                l.append(d)
               
-            cdb = CompanyDatabase("data/companies.db",str(row[1]).replace("-","").replace("&","").replace("'",""))
-            cdb.insert(today,
-                       float(company._pe_ratio),
-                       float(company._ps_ratio),
-                       float(company._cash_flow),
-                       float(company._pb_ratio),
-                       float(company._dividend_yield),
-                       float(company._payout_ratio))
-            cdb.__del__()
-            time.sleep(1) # Make programme sleep for 1 second
-
+                cdb = CompanyDatabase("data/companies.db",str(row[1]).replace("-","").replace("&","").replace("'",""))
+                cdb.insert(today,
+                           float(company._pe_ratio),
+                           float(company._ps_ratio),
+                           float(company._cash_flow),
+                           float(company._pb_ratio),
+                           float(company._dividend_yield),
+                           float(company._payout_ratio))
+                cdb.__del__()
+                time.sleep(1) # Make programme sleep for 1 second
+            except Exception as error:
+                print("[ERROR]: Skipping company")
+                
     df = pd.DataFrame(l)
-    print(df)
 
     results = analyse_results(df)
-    print(results)
+    print("Results = ", results)
     
 def analyse_results(df):
 
     analysis = AnalyseRatios(df)
-    analysis.analyse_pe_ratio(15)
+    analysis.analyse_pe_ratio(15.0)
     analysis.analyse_ps_ratio(0.8)
-    analysis.analyse_cash_flow(10)
-    analysis.analyse_pb_ratio(1)
-    analysis.analyse_dividend_yield(10)
-    analysis.analyse_payout_ratio(35)
+    analysis.analyse_cash_flow(10.0)
+    analysis.analyse_pb_ratio(1.0)
+    #analysis.analyse_dividend_yield(20)
+    #analysis.analyse_payout_ratio(50)
 
+    analysis.save_to_csv()
+    
     return analysis._df
     
 #    df_copy = df # Make a copy of the DataFrame
