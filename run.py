@@ -62,8 +62,8 @@ def analyse_results(df):
     analysis.analyse_ps_ratio(0.8)
     analysis.analyse_cash_flow(10.0)
     analysis.analyse_pb_ratio(1.0)
-    #analysis.analyse_dividend_yield(20)
-    #analysis.analyse_payout_ratio(50)
+    analysis.analyse_dividend_yield(20)
+    analysis.analyse_payout_ratio(50)
 
     analysis.save_to_csv()
     
