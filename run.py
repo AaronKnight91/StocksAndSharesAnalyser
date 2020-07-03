@@ -52,14 +52,31 @@ def run():
                 print("[ERROR]: Skipping company")
                 
     df = pd.DataFrame(l)
+    df_copy = df.copy()
 
     print("# Analysing results...")
-    results = analyse_results(df)
+    results = analyse_results(df_copy)
+
+    analysis = AnalyseRatios(df)
+    analysis.analyse_pe_ratio(0.0,30.0)
+    analysis.analyse_ps_ratio(1.0)
+    analysis.analyse_cash_flow(15.0)
+    analysis.analyse_pb_ratio(1.5)
+    analysis.analyse_debt_to_equity(150)
+    analysis.analyse_dividend_yield(20)
+    analysis.analyse_payout_ratio(50)
+
+    analysis.append_to_csv()
+
+    new_df = pd.read_csv("data/%s_analysed_companies.csv")
+    df.drop_duplicates(inplace=True)
+    print("file name = data/%s_analysed_companies.csv" % today)
+    df.to_csv("data/%s_analysed_companies.csv" % today, index=False)
     
 def analyse_results(df):
 
     analysis = AnalyseRatios(df)
-    analysis.analyse_pe_ratio(15.0)
+    analysis.analyse_pe_ratio(0.0,15.0)
     analysis.analyse_ps_ratio(0.8)
     analysis.analyse_cash_flow(10.0)
     analysis.analyse_pb_ratio(1.0)

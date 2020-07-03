@@ -7,9 +7,12 @@ class AnalyseRatios:
         self._df = df
         self._today = datetime.now().strftime("%Y%m%d")
 
-    def analyse_pe_ratio(self, ratio):
-        self._df.drop(self._df[self._df.pe_ratio > ratio].index, inplace=True)
-        self._df.drop(self._df[self._df.pe_ratio < 0].index, inplace=True)
+    def analyse_pe_ratio(self, lower_limit=0, upper_limit=15):
+        if lower_limit == 0:
+            self._df.drop(self._df[self._df.pe_ratio < lower_limit].index, inplace=True)
+        else:
+            self._df.drop(self._df[self._df.pe_ratio <= lower_limit].index, inplace=True)
+        self._df.drop(self._df[self._df.pe_ratio > upper_limit].index, inplace=True)
 
     def analyse_ps_ratio(self, ratio):
         self._df.drop(self._df[self._df.ps_ratio > ratio].index,inplace=True)
@@ -37,3 +40,6 @@ class AnalyseRatios:
 
     def save_to_csv(self):
         self._df.to_csv("data/%s_analysed_companies.csv" % self._today)
+        
+    def append_to_csv(self):
+        self._df.to_csv("data/%s_analysed_companies.csv" % self._today, mode="a", header=False)
