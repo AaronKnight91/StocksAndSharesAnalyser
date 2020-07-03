@@ -1,9 +1,11 @@
+from datetime import datetime
 import pandas as pd
 
 class AnalyseRatios:
 
     def __init__(self, df):
         self._df = df
+        self._today = datetime.now().strftime("%Y%m%d")
 
     def analyse_pe_ratio(self, ratio):
         self._df.drop(self._df[self._df.pe_ratio > ratio].index, inplace=True)
@@ -30,4 +32,4 @@ class AnalyseRatios:
         self._df.drop(self._df[self._df.payout_ratio < 0].index, inplace=True)
 
     def save_to_csv(self):
-        self._df.to_csv("analysed_companies.csv")
+        self._df.to_csv("data/%s_analysed_companies.csv" % self._today)
