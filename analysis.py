@@ -23,6 +23,10 @@ class AnalyseRatios:
         self._df.drop(self._df[self._df.pb_ratio > ratio].index, inplace=True)
         self._df.drop(self._df[self._df.pb_ratio <= 0].index, inplace=True)
 
+    def analyse_debt_to_equity(self, ratio):
+        self._df.drop(self._df[self._df.debt_to_equity > ratio].index, inplace=True)
+        self._df.drop(self._df[self._df.debt_to_equity <= 0].index, inplace=True)
+        
     def analyse_dividend_yield(self, ratio):
         #self._df.drop(self._df[self._df.dividend_yield > ratio].index, inplace=True)
         self._df.drop(self._df[self._df.dividend_yield < 0].index, inplace=True)

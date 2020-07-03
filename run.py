@@ -30,6 +30,7 @@ def run():
                      "ps_ratio":company._ps_ratio,
                      "cash_flow":company._cash_flow,
                      "pb_ratio":company._pb_ratio,
+                     "debt_to_equity":company._debt_to_equity,
                      "dividend_yield":company._dividend_yield,
                      "payout_ratio":company._payout_ratio}
                 l.append(d)
@@ -62,6 +63,7 @@ def analyse_results(df):
     analysis.analyse_ps_ratio(0.8)
     analysis.analyse_cash_flow(10.0)
     analysis.analyse_pb_ratio(1.0)
+    analysis.analyse_debt_to_equity(150)
     analysis.analyse_dividend_yield(20)
     analysis.analyse_payout_ratio(50)
 

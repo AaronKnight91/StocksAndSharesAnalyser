@@ -12,6 +12,7 @@ class Company:
         self._ps_ratio = self.get_ps_ratio()
         self._cash_flow = self.get_cash_flow()
         self._pb_ratio = self.get_pb_ratio()
+        self._debt_to_equity = self.get_debt_to_equity()
         self._dividend_yield = self.get_dividend_yield()
         self._payout_ratio = self.get_payout_ratio()
         
@@ -68,6 +69,16 @@ class Company:
                 return -999
             else:
                 return float(pb_ratio[1].text.replace(",",""))
+        except:
+            return -999
+
+    def get_debt_to_equity(self):
+        try:
+            debt_to_equity = self._html[39].find_all("td",{"class":""})
+            if debt_to_equity[1].text[:-1].replace(",","") == "-" or debt_to_equity[1].text[:-1].replace(",","") == "":
+                return -999
+            else:
+                return float(debt_to_equity[1].text[:-1].replace(",",""))
         except:
             return -999
         
