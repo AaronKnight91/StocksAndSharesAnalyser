@@ -11,7 +11,10 @@ class Company:
         self._pe_ratio = self.get_pe_ratio()
         self._ps_ratio = self.get_ps_ratio()
         self._cash_flow = self.get_cash_flow()
+        self._free_cash_flow = self.get_free_cash_flow()
         self._pb_ratio = self.get_pb_ratio()
+        self._tangible_pb_ratio = self.get_tangible_pb_ratio()
+        
         self._debt_to_equity = self.get_debt_to_equity()
         self._dividend_yield = self.get_dividend_yield()
         self._payout_ratio = self.get_payout_ratio()
@@ -47,21 +50,24 @@ class Company:
         
     def get_cash_flow(self):
         try:
-            cash_flow = self._html[3].find_all("td",{"class":""})
+            cash_flow = self._html[2].find_all("td",{"class":""})
             if cash_flow[1].text.replace(",","") == "-" or cash_flow[1].text.replace(",","") == "":
-                try:
-                    cash_flow = self._html[2].find_all("td",{"class":""})
-                    if cash_flow[1].text.replace(",","") == "-" or cash_flow[1].text.replace(",","") == "":
-                        return -999
-                    else:
-                        return float(cash_flow[1].text.replace(",",""))
-                except:
                     return -999
             else:
                 return float(cash_flow[1].text.replace(",",""))
         except:
             return -999
-        
+
+    def get_free_cash_flow(self):
+        try:
+            cash_flow = self._html[3].find_all("td",{"class":""})
+            if cash_flow[1].text.replace(",","") == "-" or cash_flow[1].text.replace(",","") == "":
+                    return -999
+            else:
+                return float(cash_flow[1].text.replace(",",""))
+        except:
+            return -999
+
     def get_pb_ratio(self):
         try:
             pb_ratio = self._html[4].find_all("td",{"class":""})
@@ -72,6 +78,16 @@ class Company:
         except:
             return -999
 
+    def get_tangible_pe_ratio(self):
+        try:
+            pb_ratio = self._html[5].find_all("td",{"class":""})
+            if pb_ratio[1].text.replace(",","") == "-" or pb_ratio[1].text.replace(",","") == "":
+                return -999
+            else:
+                return float(pb_ratio[1].text.replace(",",""))
+        except:
+            return -999
+        
     def get_debt_to_equity(self):
         try:
             debt_to_equity = self._html[39].find_all("td",{"class":""})
