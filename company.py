@@ -32,6 +32,13 @@ class Company:
         self._revenue_per_share = self.get_revenue_per_share()
         self._basic_eps = self.get_basic_eps()
         self._diluted_eps = self.get_diluted_eps()
+        self._book_value_per_share = self.get_book_value_per_share()
+        self._tangible_book_value_per_share = self.get_tangible_book_value_per_share()
+        self._cash_per_share = self.get_cash_per_share()
+        self._cash_flow_per_share = self.get_cash_flow_per_share()
+
+        self._return_on_equity_ttm = self.get_return_on_equity_ttm()
+        self._return_on_equity_5ya = self.get_return_on_equity_5ya()
         
         self._debt_to_equity = self.get_debt_to_equity()
         self._dividend_yield = self.get_dividend_yield()
@@ -208,17 +215,73 @@ class Company:
 
     def get_diluted_eps(self):
         try:
-            diluted_eps = self._html[15].find_all("td",{"class":""})
+            diluted_eps = self._html[16].find_all("td",{"class":""})
             if diluted_eps[1].text.repace(",","") == "-" or diluted_eps[1].text.repace(",","") == "":
                 return -999
             else:
                 return float(diluted_eps[1].text.replace(",",""))
         except:
             return -999
-        
 
+    def get_book_value_per_share(self):
+        try:
+            book_value_per_share = self._html[17].find_all("td",{"class":""})
+            if book_value_per_share[1].text.repace(",","") == "-" or book_value_per_share[1].text.repace(",","") == "":
+                return -999
+            else:
+                return float(book_value_per_share[1].text.replace(",",""))
+        except:
+            return -999
 
+    def get_tangible_book_value_per_share(self):
+        try:
+            tangible_book_value_per_share = self._html[18].find_all("td",{"class":""})
+            if tangible_book_value_per_share[1].text.repace(",","") == "-" or tangible_book_value_per_share[1].text.repace(",","") == "":
+                return -999
+            else:
+                return float(tangible_book_value_per_share[1].text.replace(",",""))
+        except:
+            return -999
 
+    def get_cash_per_share(self):
+        try:
+            cash_per_share = self._html[19].find_all("td",{"class":""})
+            if cash_per_share[1].text.repace(",","") == "-" or cash_per_share[1].text.repace(",","") == "":
+                return -999
+            else:
+                return float(cash_per_share[1].text.replace(",",""))
+        except:
+            return -999
+
+    def get_cash_flow_per_share(self):
+        try:
+            cash_flow_per_share = self._html[20].find_all("td",{"class":""})
+            if cash_flow_per_share[1].text.repace(",","") == "-" or cash_flow_per_share[1].text.repace(",","") == "":
+                return -999
+            else:
+                return float(cash_flow_per_share[1].text.replace(",",""))
+        except:
+            return -999
+
+    def get_return_on_equity_ttm(self):
+        try:
+            return_on_equity = self._html[21].find_all("td",{"class":""})
+            if return_on_equity[1].text.repace(",","") == "-" or return_on_equity[1].text.repace(",","") == "":
+                return -999
+            else:
+                return float(return_on_equity[1].text.replace(",",""))
+        except:
+            return -999
+
+    def get_return_on_equity_5ya(self):
+        try:
+            return_on_equity = self._html[22].find_all("td",{"class":""})
+            if return_on_equity[1].text.repace(",","") == "-" or return_on_equity[1].text.repace(",","") == "":
+                return -999
+            else:
+                return float(return_on_equity[1].text.replace(",",""))
+        except:
+            return -999
 
 
 
