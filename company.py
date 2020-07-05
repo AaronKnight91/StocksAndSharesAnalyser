@@ -14,6 +14,16 @@ class Company:
         self._free_cash_flow = self.get_free_cash_flow()
         self._pb_ratio = self.get_pb_ratio()
         self._tangible_pb_ratio = self.get_tangible_pb_ratio()
+
+        self._gross_margin_ttm = self.get_gross_margin_ttm()
+        self._gross_margin_5ya = self.get_gross_margin_5ya()
+        self._operating_margin_ttm = self.get_operating_margin_ttm()
+        self._operating_margin_5ya = self.get_operating_margin_5ya()
+        self._pretax_margin_ttm = self.get_pretax_margin_ttm()
+        self._pretax_margin_5ya = self.get_pretax_margin_5ya()
+        self._net_profit_margin_ttm = self.get_net_profit_margin_ttm()
+        self._net_profit_margin_5ya = self.get_net_profit_margin_5ya()
+        
         
         self._debt_to_equity = self.get_debt_to_equity()
         self._dividend_yield = self.get_dividend_yield()
@@ -84,9 +94,94 @@ class Company:
             if pb_ratio[1].text.replace(",","") == "-" or pb_ratio[1].text.replace(",","") == "":
                 return -999
             else:
-                return float(pb_ratio[1].text.replace(",",""))
+                return float(pb_ratio[1].text[:-1].replace(",",""))
         except:
             return -999
+
+    def get_gross_margin_ttm(self):
+        try:
+            gross_margin = self._html[6].find_all("td",{"class":""})
+            if gross_margin[1].text.replace(",","") == "-" or gross_margin[1].text.replace(",","") == "":
+                return -999
+            else:
+                return float(gross_margin[1].text[:-1].replace(",",""))
+        except:
+            return -999
+
+    def get_gross_margin_5ya(self):
+        try:
+            gross_margin = self._html[7].find_all("td",{"class":""})
+            if gross_margin[1].text.replace(",","") == "-" or gross_margin[1].text.replace(",","") == "":
+                return -999
+            else:
+                return float(gross_margin[1].text[:-1].replace(",",""))
+        except:
+            return -999
+
+    def get_operating_margin_ttm(self):
+        try:
+            operating_margin = self._html[8].find_all("td",{"class":""})
+            if operating_margin[1].text.replace(",","") == "-" or operating_margin[1].text.replace(",","") == "":
+                return -999
+            else:
+                return float(operating_margin[1].text[:-1].replace(",",""))
+        except:
+            return -999
+
+    def get_operating_margin_5ya(self):
+        try:
+            operating_margin = self._html[9].find_all("td",{"class":""})
+            if operating_margin[1].text.replace(",","") == "-" or operating_margin[1].text.replace(",","") == "":
+                return -999
+            else:
+                return float(operating_margin[1].text[:-1].replace(",",""))
+        except:
+            return -999
+
+    def get_pretax_margin_ttm(self):
+        try:
+            pretax_margin = self._html[10].find_all("td",{"class":""})
+            if pretax_margin[1].text.replace(",","") == "-" or pretax_margin[1].text.replace(",","") == "":
+                return -999
+            else:
+                return float(pretax_margin[1].text[:-1].replace(",",""))
+        except:
+            return -999
+
+    def get_pretax_margin_5ya(self):
+        try:
+            pretax_margin = self._html[11].find_all("td",{"class":""})
+            if pretax_margin[1].text.replace(",","") == "-" or pretax_margin[1].text.replace(",","") == "":
+                return -999
+            else:
+                return float(pretax_margin[1].text[:-1].replace(",",""))
+        except:
+            return -999
+
+    def get_net_profit_margin_ttm(self):
+        try:
+            net_profit_margin = self._[12].find_all("td",{"class":""})
+            if net_profit_margin[1].text.replace(",","") == "-" or net_profit_margin[1].text.replace(",","") == "":
+                return -999
+            else:
+                return float(net_profit_margin[1].text[:-1].replace(",",""))
+        except:
+            return -999
+
+    def get_net_profit_margin_5ya(self):
+        try:
+            net_profit_margin = self._[13].find_all("td",{"class":""})
+            if net_profit_margin[1].text.replace(",","") == "-" or net_profit_margin[1].text.replace(",","") == "":
+                return -999
+            else:
+                return float(net_profit_margin[1].text[:-1].replace(",",""))
+        except:
+            return -999
+
+
+
+
+
         
     def get_debt_to_equity(self):
         try:
