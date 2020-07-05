@@ -23,7 +23,10 @@ class Company:
         self._pretax_margin_5ya = self.get_pretax_margin_5ya()
         self._net_profit_margin_ttm = self.get_net_profit_margin_ttm()
         self._net_profit_margin_5ya = self.get_net_profit_margin_5ya()
-        
+
+        self._revenue_per_share = self.get_revenue_per_share()
+        self._basic_eps = self.get_basic_eps()
+        self._diluted_eps = self.get_diluted_eps()
         
         self._debt_to_equity = self.get_debt_to_equity()
         self._dividend_yield = self.get_dividend_yield()
@@ -160,7 +163,7 @@ class Company:
 
     def get_net_profit_margin_ttm(self):
         try:
-            net_profit_margin = self._[12].find_all("td",{"class":""})
+            net_profit_margin = self._html[12].find_all("td",{"class":""})
             if net_profit_margin[1].text.replace(",","") == "-" or net_profit_margin[1].text.replace(",","") == "":
                 return -999
             else:
@@ -170,13 +173,56 @@ class Company:
 
     def get_net_profit_margin_5ya(self):
         try:
-            net_profit_margin = self._[13].find_all("td",{"class":""})
+            net_profit_margin = self._html[13].find_all("td",{"class":""})
             if net_profit_margin[1].text.replace(",","") == "-" or net_profit_margin[1].text.replace(",","") == "":
                 return -999
             else:
                 return float(net_profit_margin[1].text[:-1].replace(",",""))
         except:
             return -999
+
+    def get_revenue_per_share(self):
+        try:
+            revenue_per_share = self._html[14].find_all("td",{"class":""})
+            if revenue_per_share[1].text.replace(",","") == "-" or revenue_per_share[1].text.replace(",","") == "":
+                return -999
+            else:
+                return float(revenue_per_share[1].text.replace(",",""))
+        except:
+            return -999
+
+    def get_basic_eps(self):
+        try:
+            basic_eps = self._html[15].find_all("td",{"class":""})
+            if basic_eps[1].text.repace(",","") == "-" or basic_eps[1].text.repace(",","") == "":
+                return -999
+            else:
+                return float(basic_eps[1].text.replace(",",""))
+        except:
+            return -999
+
+    def get_diluted_eps(self):
+        try:
+            diluted_eps = self._html[15].find_all("td",{"class":""})
+            if diluted_eps[1].text.repace(",","") == "-" or diluted_eps[1].text.repace(",","") == "":
+                return -999
+            else:
+                return float(diluted_eps[1].text.replace(",",""))
+        except:
+            return -999
+        
+
+
+
+
+
+
+
+
+
+
+
+        
 
 
 
