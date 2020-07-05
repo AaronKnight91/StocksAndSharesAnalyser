@@ -3,6 +3,11 @@ import bs4
 
 class Company:
 
+    """
+    The company class stores metrics for analysis.
+    The metrics are taken from uk.investing.com.
+    """
+
     def __init__(self, webpage):
 
         self._webpage = webpage
