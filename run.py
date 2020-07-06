@@ -50,6 +50,7 @@ def run():
                 time.sleep(1) # Make programme sleep for 1 second
             except Exception as error:
                 print("[ERROR]: Skipping company")
+                print(error)
                 
     df = pd.DataFrame(l)
     df_copy = df.copy()
@@ -68,9 +69,8 @@ def run():
 
     analysis.append_to_csv()
 
-    new_df = pd.read_csv("data/%s_analysed_companies.csv")
+    new_df = pd.read_csv("data/%s_analysed_companies.csv" % today)
     df.drop_duplicates(inplace=True)
-    print("file name = data/%s_analysed_companies.csv" % today)
     df.to_csv("data/%s_analysed_companies.csv" % today, index=False)
     
 def analyse_results(df):

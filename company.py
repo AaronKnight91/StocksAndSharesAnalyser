@@ -103,7 +103,7 @@ class Company:
         except:
             return -999
 
-    def get_tangible_pe_ratio(self):
+    def get_tangible_pb_ratio(self):
         try:
             pb_ratio = self._html[5].find_all("td",{"class":""})
             if pb_ratio[1].text.replace(",","") == "-" or pb_ratio[1].text.replace(",","") == "":
