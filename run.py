@@ -30,7 +30,7 @@ def run():
                      "ps_ratio":company._ps_ratio,
                      "cash_flow":company._cash_flow,
                      "pb_ratio":company._pb_ratio,
-                     "debt_to_equity":company._debt_to_equity,
+                     "debt_to_equity":company._total_debt_to_equity,
                      "dividend_yield":company._dividend_yield,
                      "payout_ratio":company._payout_ratio}
                 l.append(d)
