@@ -39,6 +39,10 @@ class Company:
 
         self._return_on_equity_ttm = self.get_return_on_equity_ttm()
         self._return_on_equity_5ya = self.get_return_on_equity_5ya()
+        self._return_on_assets_ttm = self.get_return_on_assets_ttm()
+        self._return_on_assets_5ya = self.get_return_on_assets_5ya()
+        self._return_on_investment_ttm = self.get_return_on_investment_ttm()
+        self._return_on_investment_5ya = self.get_return_on_investment_5ya()
         
         self._debt_to_equity = self.get_debt_to_equity()
         self._dividend_yield = self.get_dividend_yield()
@@ -269,7 +273,7 @@ class Company:
             if return_on_equity[1].text.repace(",","") == "-" or return_on_equity[1].text.repace(",","") == "":
                 return -999
             else:
-                return float(return_on_equity[1].text.replace(",",""))
+                return float(return_on_equity[1].text[:-1].replace(",",""))
         except:
             return -999
 
@@ -279,9 +283,50 @@ class Company:
             if return_on_equity[1].text.repace(",","") == "-" or return_on_equity[1].text.repace(",","") == "":
                 return -999
             else:
-                return float(return_on_equity[1].text.replace(",",""))
+                return float(return_on_equity[1].text[:-1].replace(",",""))
         except:
             return -999
+
+    def get_return_on_assets_ttm(self):
+        try:
+            return_on_assets = self._html[23].find_all("td",{"class":""})
+            if return_on_assets[1].text.repace(",","") == "-" or return_on_assets[1].text.repace(",","") == "":
+                return -999
+            else:
+                return float(return_on_assets[1].text.replace(",",""))
+        except:
+            return -999
+
+    def get_return_on_assets_5ya(self):
+        try:
+            return_on_assets = self._html[24].find_all("td",{"class":""})
+            if return_on_assets[1].text.repace(",","") == "-" or return_on_assets[1].text.repace(",","") == "":
+                return -999
+            else:
+                return float(return_on_assets[1].text[:-1].replace(",",""))
+        except:
+            return -999
+
+    def get_return_on_investment_ttm(self):
+        try:
+            return_on_investment = self._html[25].find_all("td",{"class":""})
+            if return_on_investment[1].text.repace(",","") == "-" or return_on_investment[1].text.repace(",","") == "":
+                return -999
+            else:
+                return float(return_on_investment[1].text[:-1].replace(",",""))
+        except:
+            return -999
+
+    def get_return_on_investment_5ya(self):
+        try:
+            return_on_investment = self._html[26].find_all("td",{"class":""})
+            if return_on_investment[1].text.repace(",","") == "-" or return_on_investment[1].text.repace(",","") == "":
+                return -999
+            else:
+                return float(return_on_investment[1].text[:-1].replace(",",""))
+        except:
+            return -999
+
 
 
 
