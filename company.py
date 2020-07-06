@@ -43,9 +43,29 @@ class Company:
         self._return_on_assets_5ya = self.get_return_on_assets_5ya()
         self._return_on_investment_ttm = self.get_return_on_investment_ttm()
         self._return_on_investment_5ya = self.get_return_on_investment_5ya()
-        
-        self._debt_to_equity = self.get_debt_to_equity()
+
+        self._eps_mrq_vs_mrq_1yr_ago = self.get_eps_mrq_vs_mrq_1yr_ago()
+        self._eps_ttm_vs_ttm_1yr_ago = self.get_eps_ttm_vs_ttm_1yr_ago()
+        self._eps_growth_5ya = self.get_eps_growth_5ya()
+        self._sale_mrq_vs_qtr_1ya_ago = self.get_eps_mrq_vs_mrq_1yr_ago()
+        self._sale_ttm_vs_ttm_1ya_ago = self.get_eps_ttm_vs_ttm_1yr_ago()
+        self._sales_growth_5ya = self.get_sales_growth_5ya()
+        self._capital_spending_growth_5ya = self.get_capital_spending_growth_5ya()
+
+        self._quick_ratio = self.get_quick_ratio()
+        self._current_ratio = self.get_current_ratio()
+        self._lt_debt_to_equity = self.get_lt_debt_to_equity()
+        self._total_debt_to_equity = self.get_total_debt_to_equity()
+
+        self._asset_turnover = self.get_asset_turnover()
+        self._inventory_turnover = self.get_inventory_turnover()
+        self._revenue_per_employee = self.get_revenue_per_employee()
+        self._net_income_per_employee = self.get_net_income_per_employee()
+        self._receivable_turnover = self.get_receivable_turnover()
+
         self._dividend_yield = self.get_dividend_yield()
+        self._dividend_yield_5ya = self.get_dividend_yield_5ya()
+        self._dividend_growth_rate = self.get_dividend_growth_rate()
         self._payout_ratio = self.get_payout_ratio()
         
     def get_webpage(self):
@@ -327,22 +347,107 @@ class Company:
         except:
             return -999
 
+    def get_eps_mrq_vs_mrq_1yr_ago(self):
+        try:
+            eps_mrq = self._html[29].find_all("td",{"class":""})
+            if eps_mrq[1].text[:-1].replace(",","") == "-" or eps_mrq[1].text[:-1].replace(",","") == "":
+                return -999
+            else:
+                return float(eps_mrq[1].text[:-1].replace(",",""))
+        except:
+            return -999
 
+    def get_eps_ttm_vs_ttm_1yr_ago(self):
+        try:
+            eps_ttm = self._html[30].find_all("td",{"class":""})
+            if eps_ttm[1].text[:-1].replace(",","") == "-" or eps_ttm[1].text[:-1].replace(",","") == "":
+                return -999
+            else:
+                return float(eps_ttm[1].text[:-1].replace(",",""))
+        except:
+            return -999
 
+    def get_eps_growth_5ya(self):
+        try:
+            eps_growth = self._html[31].find_all("td",{"class":""})
+            if eps_growth[1].text[:-1].replace(",","") == "-" or eps_growth[1].text[:-1].replace(",","") == "":
+                return -999
+            else:
+                return float(eps_growth[1].text[:-1].replace(",",""))
+        except:
+            return -999
 
+    def get_sales_mrq_vs_qtr_1yr_ago(self):
+        try:
+            sales_mrq = self._html[32].find_all("td",{"class":""})
+            if sales_mrq[1].text[:-1].replace(",","") == "-" or sales_mrq[1].text[:-1].replace(",","") == "":
+                return -999
+            else:
+                return float(sales_mrq[1].text[:-1].replace(",",""))
+        except:
+            return -999
 
-
-
-
-
+    def get_sales_ttm_vs_ttm_1yr_ago(self):
+        try:
+            sales_ttm = self._html[33].find_all("td",{"class":""})
+            if sales_ttm[1].text[:-1].replace(",","") == "-" or sales_ttm[1].text[:-1].replace(",","") == "":
+                return -999
+            else:
+                return float(sales_ttm[1].text[:-1].replace(",",""))
+        except:
+            return -999
         
+    def get_sales_growth_5ya(self):
+        try:
+            sales_growth = self._html[34].find_all("td",{"class":""})
+            if sales_growth[1].text[:-1].replace(",","") == "-" or sales_growth[1].text[:-1].replace(",","") == "":
+                return -999
+            else:
+                return float(sales_growth[1].text[:-1].replace(",",""))
+        except:
+            return -999
 
+    def get_capital_spending_growth_5ya(self):
+        try:
+            capital_spending_growth = self._html[35].find_all("td",{"class":""})
+            if capital_spending_growth[1].text[:-1].replace(",","") == "-" or capital_spending_growth[1].text[:-1].replace(",","") == "":
+                return -999
+            else:
+                return float(capital_spending_growth[1].text[:-1].replace(",",""))
+        except:
+            return -999
 
+    def get_quick_ratio(self):
+        try:
+            quick_ratio = self._html[36].find_all("td",{"class":""})
+            if quick_ratio[1].text[:-1].replace(",","") == "-" or quick_ratio[1].text[:-1].replace(",","") == "":
+                return -999
+            else:
+                return float(quick_ratio[1].text[:-1].replace(",",""))
+        except:
+            return -999
 
+    def get_current_ratio(self):
+        try:
+            current_ratio = self._html[37].find_all("td",{"class":""})
+            if current_ratio[1].text[:-1].replace(",","") == "-" or current_ratio[1].text[:-1].replace(",","") == "":
+                return -999
+            else:
+                return float(current_ratio[1].text[:-1].replace(",",""))
+        except:
+            return -999
 
-
+    def get_lt_debt_to_equity(self):
+        try:
+            debt_to_equity = self._html[38].find_all("td",{"class":""})
+            if debt_to_equity[1].text[:-1].replace(",","") == "-" or debt_to_equity[1].text[:-1].replace(",","") == "":
+                return -999
+            else:
+                return float(debt_to_equity[1].text[:-1].replace(",",""))
+        except:
+            return -999
         
-    def get_debt_to_equity(self):
+    def get_total_debt_to_equity(self):
         try:
             debt_to_equity = self._html[39].find_all("td",{"class":""})
             if debt_to_equity[1].text[:-1].replace(",","") == "-" or debt_to_equity[1].text[:-1].replace(",","") == "":
