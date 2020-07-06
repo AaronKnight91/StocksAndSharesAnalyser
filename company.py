@@ -21,7 +21,6 @@ class Company:
         self._tangible_pb_ratio = self.get_tangible_pb_ratio()
 
         self._gross_margin_ttm = self.get_gross_margin_ttm()
-        print(self._gross_margin_ttm)
         self._gross_margin_5ya = self.get_gross_margin_5ya()
         self._operating_margin_ttm = self.get_operating_margin_ttm()
         self._operating_margin_5ya = self.get_operating_margin_5ya()
