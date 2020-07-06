@@ -351,7 +351,57 @@ class Company:
                 return float(debt_to_equity[1].text[:-1].replace(",",""))
         except:
             return -999
-        
+
+    def get_asset_turnover(self):
+        try:
+            asset_turnover = self._html[40].find_all("td",{"class":""})
+            if asset_turnover[1].text.replace(",","") == "-" or asset_turnover[1].text.replace(",","") == "":
+                return -999
+            else:
+                return float(asset_turnover[1].text.replace(",",""))
+        except:
+            return -999
+
+    def get_inventory_turnover(self):
+        try:
+            inventory_turnover = self._html[41].find_all("td",{"class":""})
+            if inventory_turnover[1].text.replace(",","") == "-" or inventory_turnover[1].text.replace(",","") == "":
+                return -999
+            else:
+                return float(inventory_turnover[1].text.replace(",",""))
+        except:
+            return -999
+
+    def get_revenue_per_employee(self):
+        try:
+            revenue_per_employee = self._html[42].find_all("td",{"class":""})
+            if revenue_per_employee[1].text[:-1].replace(",","") == "-" or revenue_per_employee[1].text[:-1].replace(",","") == "":
+                return -999
+            else:
+                return float(revenue_per_employee[1].text[:-1].replace(",",""))
+        except:
+            return -999
+
+    def get_net_income_per_employee(self):
+        try:
+            net_income_per_employee = self._html[43].find_all("td",{"class":""})
+            if net_income_per_employee[1].text[:-1].replace(",","") == "-" or net_income_per_employee[1].text[:-1].replace(",","") == "":
+                return -999
+            else:
+                return float(net_income_per_employee[1].text[:-1].replace(",",""))
+        except:
+            return -999
+
+    def get_receivable_turnover(self):
+        try:
+            receivable_turnover = self._html[44].find_all("td",{"class":""})
+            if receivable_turnover[1].text.replace(",","") == "-" or receivable_turnover[1].text.replace(",","") == "":
+                return -999
+            else:
+                return float(receivable_turnover[1].text.replace(",",""))
+        except:
+            return -999
+
     def get_dividend_yield(self):
         try:
             dividend_yield = self._html[45].find_all("td",{"class":""})
@@ -361,7 +411,27 @@ class Company:
                 return float(dividend_yield[1].text[:-1].replace(",",""))
         except:
             return -999
-            
+
+    def get_dividend_yield_5ya(self):
+        try:
+            dividend_yield = self._html[46].find_all("td",{"class":""})
+            if dividend_yield[1].text[:-1].replace(",","") == "-" or dividend_yield[1].text[:-1].replace(",","") == "":
+                return -999
+            else:
+                return float(dividend_yield[1].text[:-1].replace(",",""))
+        except:
+            return -999
+
+    def get_dividend_growth_rate(self):
+        try:
+            dividend_growth_rate = self._html[47].find_all("td",{"class":""})
+            if dividend_growth_rate[1].text[:-1].replace(",","") == "-" or dividend_growth_rate[1].text[:-1].replace(",","") == "":
+                return -999
+            else:
+                return float(dividend_growth_rate[1].text[:-1].replace(",",""))
+        except:
+            return -999
+
     def get_payout_ratio(self):
         try:
             payout_ratio = self._html[48].find_all("td",{"class":""})
