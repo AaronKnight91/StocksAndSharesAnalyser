@@ -1,3 +1,4 @@
+import argparse
 import csv
 import time
 from datetime import datetime
@@ -7,7 +8,7 @@ from company import Company
 from company_database import CompanyDatabase
 from analysis import AnalyseRatios
 
-def run():
+def run(args):
 
     today = datetime.now().strftime("%Y%m%d")
 
@@ -51,27 +52,29 @@ def run():
             except Exception as error:
                 print("[ERROR]: Skipping company")
                 print(error)
+
+    if not args.noanalysis:
                 
-    df = pd.DataFrame(l)
-    df_copy = df.copy()
+        df = pd.DataFrame(l)
+        df_copy = df.copy()
 
-    print("# Analysing results...")
-    results = analyse_results(df_copy)
-
-    analysis = AnalyseRatios(df)
-    analysis.analyse_pe_ratio(0.0,30.0)
-    analysis.analyse_ps_ratio(1.0)
-    analysis.analyse_cash_flow(15.0)
-    analysis.analyse_pb_ratio(1.5)
-    analysis.analyse_debt_to_equity(150)
-    analysis.analyse_dividend_yield(20)
-    analysis.analyse_payout_ratio(50)
-
-    analysis.append_to_csv()
-
-    new_df = pd.read_csv("data/%s_analysed_companies.csv" % today)
-    df.drop_duplicates(inplace=True)
-    df.to_csv("data/%s_analysed_companies.csv" % today, index=False)
+        print("# Analysing results...")
+        results = analyse_results(df_copy)
+        
+        analysis = AnalyseRatios(df)
+        analysis.analyse_pe_ratio(0.0,30.0)
+        analysis.analyse_ps_ratio(1.0)
+        analysis.analyse_cash_flow(15.0)
+        analysis.analyse_pb_ratio(1.5)
+        analysis.analyse_debt_to_equity(150)
+        analysis.analyse_dividend_yield(20)
+        analysis.analyse_payout_ratio(50)
+        
+        analysis.append_to_csv()
+        
+        new_df = pd.read_csv("data/%s_analysed_companies.csv" % today)
+        df.drop_duplicates(inplace=True)
+        df.to_csv("data/%s_analysed_companies.csv" % today, index=False)
     
 def analyse_results(df):
 
@@ -96,6 +99,17 @@ def analyse_results(df):
 #    df_copy = df_copy.drop(df[df.payout_ratio < 35].index)
 
     return df_copy
+
+def check_arguments():
+
+    parser = argparse.ArgumentParser(description="Arguments for the Investment App")
+
+    parser.add_argument("--noanalysis","-na",action="store_true",help="This argument will run the programme without analysising the data")
+
+    args = parser.parse_args()
+    
+    return args
     
 if __name__ == "__main__":
-    run()
+    args = check_arguments()
+    run(args)
