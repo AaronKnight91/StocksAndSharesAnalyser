@@ -9,6 +9,19 @@ class AnalyseRatios:
         self._df = df
         self._today = datetime.now().strftime("%Y%m%d")
 
+        self._new_df = pd.DataFrame()
+        
+    def analyse(self):
+
+        #new_df = pd.DataFrame()
+        for index, row = self._df.iterrows():
+            if row["pe_ratio"] <= 15:
+                entry = [df.loc[index]]
+                self._new_df.loc[len(new_df)] = entry
+
+                self._df.drop(self._df.index[index], inplace=True)
+
+        
     def analyse_pe_ratio(self, lower_limit=0, upper_limit=15):
         if lower_limit == 0:
             self._df.drop(self._df[self._df.pe_ratio < lower_limit].index, inplace=True)
