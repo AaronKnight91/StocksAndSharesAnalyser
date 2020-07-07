@@ -3,7 +3,9 @@ import pandas as pd
 
 class AnalyseRatios:
 
-    def __init__(self, df):
+    def __init__(self, outpath, df):
+
+        self._opath = outpath
         self._df = df
         self._today = datetime.now().strftime("%Y%m%d")
 
@@ -39,7 +41,7 @@ class AnalyseRatios:
         self._df.drop(self._df[self._df.payout_ratio < 0].index, inplace=True)
 
     def save_to_csv(self):
-        self._df.to_csv("data/%s_analysed_companies.csv" % self._today)
+        self._df.to_csv("%s/analysis/%s_analysed_companies.csv" % (self._opath,self._today))
         
     def append_to_csv(self):
-        self._df.to_csv("data/%s_analysed_companies.csv" % self._today, mode="a", header=False)
+        self._df.to_csv("%s/analysis/%s_analysed_companies.csv" % (self._opath,self._today), mode="a", header=False)
