@@ -22,8 +22,6 @@ def run(args):
             if row[5] == "":
                 continue
 
-            #if i == 50: break
-
             print("Scrapping data for %s, %s" % (row[0], row[2]))
             try:
                 company = Company(row[5])
