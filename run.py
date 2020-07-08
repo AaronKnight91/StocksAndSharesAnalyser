@@ -22,6 +22,8 @@ def run(args):
             if row[5] == "":
                 continue
 
+            if i == 50: break
+
             print("Scrapping data for %s, %s" % (row[0], row[2]))
             try:
                 d = {}
@@ -68,6 +70,9 @@ def run(args):
         #df_copy = df.copy()
 
         print("# Analysing results...")
+        analysis = AnalyseRatios(args.data,df)
+        analysis.analyse()
+        analysis.save_output()
         #results = analyse_results(df_copy)
         
         #analysis = AnalyseRatios(args.data,df)
