@@ -9,27 +9,40 @@ class AnalyseRatios:
         self._df = df
         self._today = datetime.now().strftime("%Y%m%d")
 
+        self._cuts = [[15,0.8,10,1,100,10,35],[25,1,15,1.5,150,10,50],[25,1,15,1.5,150,10,65]]
+        
         self._new_df = pd.DataFrame()
         
     def analyse(self):
 
-        l = []
         columns =["Company Name","P/E Ratio","P/S Ratio","Cash Flow","P/B Ratio", "Debt to Equity","Dividend Yield","Payout Ratio"]
-        for index, row in self._df.iterrows():
-            if row["pe_ratio"] <= 15 and row["ps_ratio"] <= 0.8 and row["cash_flow"] <= 10 and row["pb_ratio"] <= 1 and row["debt_to_equity"] <= 100 and row["dividend_yield"] <= 10 and row["payout_ratio"] <= 35:
 
-                entry = self._df.loc[index]
-                data = {"Company Name": entry[0],
-                        "P/E Ratio":entry[1],
-                        "P/S Ratio":entry[2],
-                        "Cash Flow":entry[3],
-                        "P/B Ratio":entry[4],
-                        "Debt to Equity":entry[5],
-                        "Dividend Yield":entry[6],
-                        "Payout Ratio":entry[7]}
-                l.append(data)
-                self._df.drop(self._df.index[index], inplace=True)
-        self._new_df = pd.DataFrame(l, columns = columns)
+        for i in range(len(self._cuts)):
+            l = []
+            for index, row in self._df.iterrows():
+                if row["pe_ratio"] <= self._cuts[i][0] and not row["pe_ratio"] == -999:
+                    if row["ps_ratio"] <= self._cuts[i][1] and not row["ps_ratio"] == -999:
+                        if row["cash_flow"] <= self._cuts[i][2] and not row["cash_flow"] == -999:
+                            if row["pb_ratio"] <= self._cuts[i][3] and not row["pb_ratio"] == -999:
+                                if row["debt_to_equity"] <= self._cuts[i][4] and not row["debt_to_equity"] == -999:
+                                    if row["dividend_yield"] <= self._cuts[i][5] and not row["dividend_yield"] == -999:
+                                        if row["payout_ratio"] <= self._cuts[i][6] and not row["payout_ratio"] == -999:
+                                            try:
+                                                entry = self._df.loc[index]
+                                                data = {"Company Name": entry["Company Name"],
+                                                        "P/E Ratio":entry["pe_ratio"],
+                                                        "P/S Ratio":entry["ps_ratio"],
+                                                        "Cash Flow":entry["cash_flow"],
+                                                        "P/B Ratio":entry["pb_ratio"],
+                                                        "Debt to Equity":entry["debt_to_equity"],
+                                                        "Dividend Yield":entry["dividend_yield"],
+                                                        "Payout Ratio":entry["payout_ratio"]}
+                                                l.append(data)
+                                                self._df.drop(self._df.index[index], inplace=True)
+                                            except Exception as error:
+                                                print("[ERROR]: Skipping company")
+                                                print(error)
+            self._new_df = pd.DataFrame(l, columns = columns)
 
     def save_output(self):
         self._new_df.to_csv("%s/analysis/%s_analysed_companies.csv" % (self._opath,self._today))
