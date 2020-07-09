@@ -23,6 +23,7 @@ def scrap_data(today, l):
     with open("%s/%s" % (args.input, args.indata),"r",encoding='cp1252') as csv_file:
         reader = csv.reader(csv_file)
 
+        skipped = []
         for i, row in enumerate(reader):
             if i == 0:
                 continue
@@ -34,6 +35,7 @@ def scrap_data(today, l):
                 company = Company(row[5])
                 if company._html == None:
                     print("# Error: skipping %s" % row[0])
+                    skipped.append(row[0])
                     continue
                 if not args.noanalysis:
                     d = {}
