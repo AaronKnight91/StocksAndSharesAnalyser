@@ -1,4 +1,5 @@
 from urllib.request import Request, urlopen
+from urllib.error import HTTPError, URLError, ContentTooShortError
 import bs4
 
 class Company:
@@ -77,10 +78,18 @@ class Company:
             all = soup.find_all("tr",{"class":"child"})
         
             return all
-        except Exception as error:
-            print(error)
+        except URLError as urlerror:
+            print("[ERROR]:", urlerror)
             return None
-            
+        except HTTPError as httperror:
+            print("[ERROR]:",httperror)
+            return None
+        except ContentTooShortError as ctserror:
+            print("[ERROR]:",ctserror)
+            return None
+        except Exception as error:
+            print("[ERROR]:", error)
+            return None
 
     def get_pe_ratio(self):
         try:
