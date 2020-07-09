@@ -13,7 +13,8 @@ def run(args):
     l = []
 
     if not args.noscrapping:
-        l = scrape_data(today, l)
+        l, skipped = scrape_data(today, l)
+        
     
     if not args.noanalysis or not args.noscrapping:
         run_analysis(l)
@@ -108,7 +109,7 @@ def scrape_data(today, l):
                 print(error)
 
     if not args.noanalysis:
-        return l
+        return l, skipped
     else:
         return None
 
