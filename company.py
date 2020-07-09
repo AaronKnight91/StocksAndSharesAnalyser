@@ -12,7 +12,7 @@ class Company:
 
         self._webpage = webpage
         self._html = self.get_webpage()
-
+        
         if not self._html == None: 
             self._pe_ratio = self.get_pe_ratio()
             self._ps_ratio = self.get_ps_ratio()
@@ -71,9 +71,8 @@ class Company:
             
     def get_webpage(self):
         try:
-            req = Request(self._webpage, headers={'User-Agent': 'Mozilla/5.0'})
+            req = Request(self._webpage, headers={'User-Agent':'Mozilla/5.0'})
             webpage = urlopen(req, timeout=30).read()
-            
             soup = bs4.BeautifulSoup(webpage,"html.parser")
             all = soup.find_all("tr",{"class":"child"})
         
