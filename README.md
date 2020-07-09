@@ -4,3 +4,13 @@ This programme scraps data from the internet and analyses to suggest which share
 ```
 python run.py
 ```
+The data will be saved in a database with each company's data saved to it's own table.
+
+Once the programme has run, the data will be analysed and a csv file will be produced with a list of potential companies to invest in based on certain metrics. If you do no want to run the analysis, run the programme with the "noanalysis" argument:
+```
+python run.py --noanalysis
+```
+Or, alternatively:
+```
+python run.py -na
+```
