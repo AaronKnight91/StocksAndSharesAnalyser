@@ -10,15 +10,14 @@ class AnalyseRatios:
         self._today = datetime.now().strftime("%Y%m%d")
 
         self._cuts = [[15,0.8,10,1,50,10,35],[25,1,15,1.5,100,10,50],[25,1,15,1.5,150,10,65]]
+        self._columns =["Company Name","P/E Ratio","P/S Ratio","Cash Flow","P/B Ratio", "Debt to Equity","Dividend Yield","Payout Ratio"]
+        self._l = []
         
         self._new_df = pd.DataFrame()
         
     def analyse(self):
 
-        columns =["Company Name","P/E Ratio","P/S Ratio","Cash Flow","P/B Ratio", "Debt to Equity","Dividend Yield","Payout Ratio"]
-
         for i in range(len(self._cuts)):
-            l = []
             for index, row in self._df.iterrows():
                 if row["pe_ratio"] <= self._cuts[i][0] and not row["pe_ratio"] == -999:
                     if row["ps_ratio"] <= self._cuts[i][1] and not row["ps_ratio"] == -999:
@@ -38,13 +37,16 @@ class AnalyseRatios:
                                                         "Dividend Yield":entry["dividend_yield"],
                                                         "Payout Ratio":entry["payout_ratio"]}
                                                 print("Data = ", data)
-                                                l.append(data)
+                                                if not data in self._l: 
+                                                    self._l.append(data)
                                                 self._df.drop(self._df.index[index], inplace=True)
+                                                print(self._df)
+                                                print("\n")
                                             except Exception as error:
                                                 print("[ERROR]: Skipping company")
                                                 print(error)
-            print(l)
-            self._new_df = pd.DataFrame(l, columns = columns)
+            print(self._l)
+            self._new_df = pd.DataFrame(self._l, columns = self._columns)
 
     def save_output(self):
         self._new_df.to_csv("%s/analysis/%s_analysed_companies.csv" % (self._opath,self._today))
