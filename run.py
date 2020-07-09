@@ -13,12 +13,12 @@ def run(args):
     l = []
 
     if not args.noscrapping:
-        l = scrap_data(today, l)
+        l = scrape_data(today, l)
     
     if not args.noanalysis or not args.noscrapping:
         run_analysis(l)
 
-def scrap_data(today, l):
+def scrape_data(today, l):
     
     with open("%s/%s" % (args.input, args.indata),"r",encoding='cp1252') as csv_file:
         reader = csv.reader(csv_file)
