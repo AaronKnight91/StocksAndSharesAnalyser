@@ -9,11 +9,18 @@ from company_database import CompanyDatabase
 from analysis import AnalyseRatios
 
 def run(args):
-
     today = datetime.now().strftime("%Y%m%d")
-
     l = []
-    with open("%s/inputs/freetrade_uk_shares.csv" % args.data,"r",encoding='cp1252') as csv_file:
+
+    if not args.noscrapping:
+        l = scrap_data(today, l)
+    
+    if not args.noanalysis or not args.noscrapping:
+        run_analysis(l)
+
+def scrap_data(today, l):
+    
+    with open("%s/%s" % (args.input, args.indata),"r",encoding='cp1252') as csv_file:
         reader = csv.reader(csv_file)
 
         for i, row in enumerate(reader):
@@ -37,7 +44,7 @@ def run(args):
                          "payout_ratio":company._payout_ratio}
                     l.append(d)
               
-                cdb = CompanyDatabase("%s/databases/companies.db" % args.data,str(row[1]).replace("-","").replace("&","").replace("'",""))
+                cdb = CompanyDatabase("%s/%s" % (args.databases,args.savedatabase),str(row[1]).replace("-","").replace("&","").replace("'",""))
                 cdb.insert(today,
                            float(company._pe_ratio),
                            float(company._ps_ratio),
@@ -96,21 +103,32 @@ def run(args):
                 print(error)
 
     if not args.noanalysis:
-        
-        df = pd.DataFrame(l)
+        return l
+    else:
+        return None
 
-        print("# Analysing results...")
-        analysis = AnalyseRatios(args.data,df)
-        analysis.analyse()
-        analysis.save_output()
+def run_analysis(data):        
+    df = pd.DataFrame(data)
+    
+    print("# Analysing results...")
+    analysis = AnalyseRatios(args.analysis,df)
+    analysis.analyse()
+    analysis.save_output()
 
 def check_arguments():
 
     parser = argparse.ArgumentParser(description="Arguments for the Investment App")
 
+    parser.add_argument("--noscrapping","-ns",action="store_true",help="This argument will run the programme without scrapping data. Also, the analysis will not run.")
     parser.add_argument("--noanalysis","-na",action="store_true",help="This argument will run the programme without analysising the data")
 
-    parser.add_argument("--data","-d",type=str,help="The path that any data will be read from/to will be saved to",default="data")
+    #parser.add_argument("--data","-d",type=str,help="The path that any data will be read from/to will be saved to",default="data")
+    parser.add_argument("--input","-i",type=str,help="The path where your input files are saved",default="./data/inputs")
+    parser.add_argument("--databases","-db",type=str,help="The path where your databases will be stored",default="./data/databases")
+    parser.add_argument("--analysis","-a", type=str,help="The path where the analysed csv files will be saved",default="./data/analysis")
+
+    parser.add_argument("--indata","-id",type=str,help="The csv file that will be used to get the data from",default="freetrade_uk_shares.csv")
+    parser.add_argument("--savedatabase","-sb",type=str,help="The database in which company data will be saved",default="companies.db")
     
     args = parser.parse_args()
     

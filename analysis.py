@@ -49,7 +49,7 @@ class AnalyseRatios:
             self._new_df = pd.DataFrame(self._l, columns = self._columns)
 
     def save_output(self):
-        self._new_df.to_csv("%s/analysis/%s_analysed_companies.csv" % (self._opath,self._today))
+        self._new_df.to_csv("%s/%s_analysed_companies.csv" % (self._opath,self._today))
 
         
     def analyse_pe_ratio(self, lower_limit=0, upper_limit=15):
