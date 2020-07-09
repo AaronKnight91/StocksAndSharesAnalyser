@@ -36,16 +36,13 @@ class AnalyseRatios:
                                                         "Debt to Equity":entry["debt_to_equity"],
                                                         "Dividend Yield":entry["dividend_yield"],
                                                         "Payout Ratio":entry["payout_ratio"]}
-                                                print("Data = ", data)
                                                 if not data in self._l: 
                                                     self._l.append(data)
                                                 self._df.drop(self._df.index[index], inplace=True)
-                                                print(self._df)
-                                                print("\n")
                                             except Exception as error:
                                                 print("[ERROR]: Skipping company")
                                                 print(error)
-            print(self._l)
+
             self._new_df = pd.DataFrame(self._l, columns = self._columns)
 
     def save_output(self):
