@@ -26,9 +26,9 @@ def scrape_data(today, l):
     while length > 0:
         length = len(df)
         for index, row in df.iterrows():
-            if row["Investing.com"] == None:
-                df.drop(index, inplace == True)
-            print("# Scrapping data for %s" % row["Share Name"])
+            print("# Scrapping data for %s" % row["Company Name"])
+
+            sql_table_name = string_converter(row["Company Name"])
 
             try:
                 company = Company(row["Investing.com"])
@@ -44,7 +44,7 @@ def scrape_data(today, l):
                          "payout_ratio":company._payout_ratio}
                     l.append(d)
                     
-                    cdb = CompanyDatabase("%s/%s" % (args.databases,args.savedatabase),str(row[1]).replace("-","").replace("&","").replace("'",""))
+                    cdb = CompanyDatabase("%s/%s" % (args.databases,args.savedatabase), sql_table_name)
                     cdb.insert(today,
                                float(company._pe_ratio),
                                float(company._ps_ratio),
@@ -102,7 +102,23 @@ def scrape_data(today, l):
             except Exception as error:                                                                                                               
                 print("[ERROR]: Moving on to next company. This company will be attempted again later.")
 
-def run_analysis(data):        
+def string_converter(input_string):
+
+    d = { 0 : 'zero', 1 : 'one', 2 : 'two', 3 : 'three', 4 : 'four', 5 : 'five', 6 : 'six', 7 : 'seven', 8 : 'eight', 9 : 'nine'}
+
+    output_string = ""
+    for character in input_string:
+        if character.isnumeric():
+            output_string += d[int(character)]
+        elif not character.isalnum():
+            continue
+        else:
+            output_string += character
+
+    return output_string.lower()        
+        
+def run_analysis(data):
+    
     df = pd.DataFrame(data)
     
     print("# Analysing results...")
