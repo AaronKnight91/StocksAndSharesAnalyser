@@ -100,8 +100,7 @@ def scrape_data(today, l):
                     df.drop(index, inplace=True)
                     time.sleep(1) # Make programme sleep for 1 second
             except Exception as error:                                                                                                               
-                print("[ERROR]: Skipping company")                                                                                                   
-                print(error) 
+                print("[ERROR]: Moving on to next company. This company will be attempted again later.")
 
 def run_analysis(data):        
     df = pd.DataFrame(data)
