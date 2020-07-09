@@ -1,4 +1,5 @@
 from urllib.request import Request, urlopen
+from urllib.error import HTTPError, URLError, ContentTooShortError
 import bs4
 
 class Company:
@@ -12,70 +13,83 @@ class Company:
 
         self._webpage = webpage
         self._html = self.get_webpage()
-
-        self._pe_ratio = self.get_pe_ratio()
-        self._ps_ratio = self.get_ps_ratio()
-        self._cash_flow = self.get_cash_flow()
-        self._free_cash_flow = self.get_free_cash_flow()
-        self._pb_ratio = self.get_pb_ratio()
-        self._tangible_pb_ratio = self.get_tangible_pb_ratio()
-
-        self._gross_margin_ttm = self.get_gross_margin_ttm()
-        self._gross_margin_5ya = self.get_gross_margin_5ya()
-        self._operating_margin_ttm = self.get_operating_margin_ttm()
-        self._operating_margin_5ya = self.get_operating_margin_5ya()
-        self._pretax_margin_ttm = self.get_pretax_margin_ttm()
-        self._pretax_margin_5ya = self.get_pretax_margin_5ya()
-        self._net_profit_margin_ttm = self.get_net_profit_margin_ttm()
-        self._net_profit_margin_5ya = self.get_net_profit_margin_5ya()
-
-        self._revenue_per_share = self.get_revenue_per_share()
-        self._basic_eps = self.get_basic_eps()
-        self._diluted_eps = self.get_diluted_eps()
-        self._book_value_per_share = self.get_book_value_per_share()
-        self._tangible_book_value_per_share = self.get_tangible_book_value_per_share()
-        self._cash_per_share = self.get_cash_per_share()
-        self._cash_flow_per_share = self.get_cash_flow_per_share()
-
-        self._return_on_equity_ttm = self.get_return_on_equity_ttm()
-        self._return_on_equity_5ya = self.get_return_on_equity_5ya()
-        self._return_on_assets_ttm = self.get_return_on_assets_ttm()
-        self._return_on_assets_5ya = self.get_return_on_assets_5ya()
-        self._return_on_investment_ttm = self.get_return_on_investment_ttm()
-        self._return_on_investment_5ya = self.get_return_on_investment_5ya()
-
-        self._eps_mrq_vs_mrq_1yr_ago = self.get_eps_mrq_vs_mrq_1yr_ago()
-        self._eps_ttm_vs_ttm_1yr_ago = self.get_eps_ttm_vs_ttm_1yr_ago()
-        self._eps_growth_5ya = self.get_eps_growth_5ya()
-        self._sale_mrq_vs_qtr_1ya_ago = self.get_eps_mrq_vs_mrq_1yr_ago()
-        self._sale_ttm_vs_ttm_1ya_ago = self.get_eps_ttm_vs_ttm_1yr_ago()
-        self._sales_growth_5ya = self.get_sales_growth_5ya()
-        self._capital_spending_growth_5ya = self.get_capital_spending_growth_5ya()
-
-        self._quick_ratio = self.get_quick_ratio()
-        self._current_ratio = self.get_current_ratio()
-        self._lt_debt_to_equity = self.get_lt_debt_to_equity()
-        self._total_debt_to_equity = self.get_total_debt_to_equity()
-
-        self._asset_turnover = self.get_asset_turnover()
-        self._inventory_turnover = self.get_inventory_turnover()
-        self._revenue_per_employee = self.get_revenue_per_employee()
-        self._net_income_per_employee = self.get_net_income_per_employee()
-        self._receivable_turnover = self.get_receivable_turnover()
-
-        self._dividend_yield = self.get_dividend_yield()
-        self._dividend_yield_5ya = self.get_dividend_yield_5ya()
-        self._dividend_growth_rate = self.get_dividend_growth_rate()
-        self._payout_ratio = self.get_payout_ratio()
         
+        if not self._html == None: 
+            self._pe_ratio = self.get_pe_ratio()
+            self._ps_ratio = self.get_ps_ratio()
+            self._cash_flow = self.get_cash_flow()
+            self._free_cash_flow = self.get_free_cash_flow()
+            self._pb_ratio = self.get_pb_ratio()
+            self._tangible_pb_ratio = self.get_tangible_pb_ratio()
+            
+            self._gross_margin_ttm = self.get_gross_margin_ttm()
+            self._gross_margin_5ya = self.get_gross_margin_5ya()
+            self._operating_margin_ttm = self.get_operating_margin_ttm()
+            self._operating_margin_5ya = self.get_operating_margin_5ya()
+            self._pretax_margin_ttm = self.get_pretax_margin_ttm()
+            self._pretax_margin_5ya = self.get_pretax_margin_5ya()
+            self._net_profit_margin_ttm = self.get_net_profit_margin_ttm()
+            self._net_profit_margin_5ya = self.get_net_profit_margin_5ya()
+            
+            self._revenue_per_share = self.get_revenue_per_share()
+            self._basic_eps = self.get_basic_eps()
+            self._diluted_eps = self.get_diluted_eps()
+            self._book_value_per_share = self.get_book_value_per_share()
+            self._tangible_book_value_per_share = self.get_tangible_book_value_per_share()
+            self._cash_per_share = self.get_cash_per_share()
+            self._cash_flow_per_share = self.get_cash_flow_per_share()
+            
+            self._return_on_equity_ttm = self.get_return_on_equity_ttm()
+            self._return_on_equity_5ya = self.get_return_on_equity_5ya()
+            self._return_on_assets_ttm = self.get_return_on_assets_ttm()
+            self._return_on_assets_5ya = self.get_return_on_assets_5ya()
+            self._return_on_investment_ttm = self.get_return_on_investment_ttm()
+            self._return_on_investment_5ya = self.get_return_on_investment_5ya()
+            
+            self._eps_mrq_vs_mrq_1yr_ago = self.get_eps_mrq_vs_mrq_1yr_ago()
+            self._eps_ttm_vs_ttm_1yr_ago = self.get_eps_ttm_vs_ttm_1yr_ago()
+            self._eps_growth_5ya = self.get_eps_growth_5ya()
+            self._sale_mrq_vs_qtr_1ya_ago = self.get_eps_mrq_vs_mrq_1yr_ago()
+            self._sale_ttm_vs_ttm_1ya_ago = self.get_eps_ttm_vs_ttm_1yr_ago()
+            self._sales_growth_5ya = self.get_sales_growth_5ya()
+            self._capital_spending_growth_5ya = self.get_capital_spending_growth_5ya()
+            
+            self._quick_ratio = self.get_quick_ratio()
+            self._current_ratio = self.get_current_ratio()
+            self._lt_debt_to_equity = self.get_lt_debt_to_equity()
+            self._total_debt_to_equity = self.get_total_debt_to_equity()
+            
+            self._asset_turnover = self.get_asset_turnover()
+            self._inventory_turnover = self.get_inventory_turnover()
+            self._revenue_per_employee = self.get_revenue_per_employee()
+            self._net_income_per_employee = self.get_net_income_per_employee()
+            self._receivable_turnover = self.get_receivable_turnover()
+            
+            self._dividend_yield = self.get_dividend_yield()
+            self._dividend_yield_5ya = self.get_dividend_yield_5ya()
+            self._dividend_growth_rate = self.get_dividend_growth_rate()
+            self._payout_ratio = self.get_payout_ratio()
+            
     def get_webpage(self):
-        req = Request(self._webpage, headers={'User-Agent': 'Mozilla/5.0'})
-        webpage = urlopen(req).read()
-
-        soup = bs4.BeautifulSoup(webpage,"html.parser")
-        all = soup.find_all("tr",{"class":"child"})
+        try:
+            req = Request(self._webpage, headers={'User-Agent':'Mozilla/5.0'})
+            webpage = urlopen(req, timeout=30).read()
+            soup = bs4.BeautifulSoup(webpage,"html.parser")
+            all = soup.find_all("tr",{"class":"child"})
         
-        return all
+            return all
+        except URLError as urlerror:
+            print("[ERROR]:", urlerror)
+            return None
+        except HTTPError as httperror:
+            print("[ERROR]:",httperror)
+            return None
+        except ContentTooShortError as ctserror:
+            print("[ERROR]:",ctserror)
+            return None
+        except Exception as error:
+            print("[ERROR]:", error)
+            return None
 
     def get_pe_ratio(self):
         try:
