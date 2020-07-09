@@ -14,3 +14,8 @@ Or, alternatively:
 ```
 python run.py -na
 ```
+
+There are a number of command line arguments the user can use. To view all these:
+```
+python run.py -h
+```
