@@ -32,6 +32,9 @@ def scrap_data(today, l):
             print("Scrapping data for %s, %s" % (row[0], row[2]))
             try:
                 company = Company(row[5])
+                if company._html == None:
+                    print("# Error: skipping %s" % row[0])
+                    continue
                 if not args.noanalysis:
                     d = {}
                     d = {"Company Name": row[0],
