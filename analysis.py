@@ -40,7 +40,7 @@ class AnalyseRatios:
                                                     self._l.append(data)
                                                 self._df.drop(self._df.index[index], inplace=True)
                                             except Exception as error:
-                                                print("[ERROR]: Skipping company")
+                                                print("[ERROR]: Skipping %s" % row["Company Name"])
                                                 print(error)
 
             self._new_df = pd.DataFrame(self._l, columns = self._columns)
