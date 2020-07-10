@@ -31,6 +31,9 @@ def scrape_data(today, l):
             sql_table_name = string_converter(row["Company Name"])
 
             try:
+                if row["Investing.com"] == "None":
+                    df.drop(index, inplace=True)
+                    continue
                 company = Company(row["Investing.com"])
                 if not args.noanalysis:
                     d = {}
