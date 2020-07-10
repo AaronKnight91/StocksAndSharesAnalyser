@@ -7,6 +7,7 @@ import pandas as pd
 from company import Company
 from company_database import CompanyDatabase
 from analysis import AnalyseRatios
+from stock_tracker import OwnedStocks
 
 def run(args):
     today = datetime.now().strftime("%Y%m%d")
@@ -17,6 +18,15 @@ def run(args):
     
     if not args.noanalysis or not args.noscrapping:
         run_analysis(l)
+
+    if args.stocktracker:
+        company = input("Please enter the name of the company you have bought: ")
+        date = input("Please enter the date you bought the shares using the YYYY/MM/DD format: ")
+        num_shares = input("Please enter the number of shares you bought: ")
+        price = input("Please enter the price at which you bought the shares: ")
+        total_cost = input("Please enter the total cost of the transaction: ")
+        share = OwnedStocks(str(company))#, trigger_level = -0.25)
+        share.insert(str(date), float(num_shares), float(price), float(total_cost))
 
 def scrape_data(today, l):
 
@@ -134,6 +144,7 @@ def check_arguments():
     parser = argparse.ArgumentParser(description="Arguments for the Investment App")
 
     parser.add_argument("--noscrapping","-ns",action="store_true",help="This argument will run the programme without scrapping data. Also, the analysis will not run.")
+    parser.add_argument("--stocktracker","-st",action="store_true",help="This allows the user to enter purchases into a sql table")
     parser.add_argument("--noanalysis","-na",action="store_true",help="This argument will run the programme without analysising the data")
 
     #parser.add_argument("--data","-d",type=str,help="The path that any data will be read from/to will be saved to",default="data")
