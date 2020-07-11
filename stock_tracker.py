@@ -8,24 +8,23 @@ class OwnedStocks:
     This will allow the average price to be tracked and alerts sent out when the price drops by 25%.
     """
 
-    def __init__(self, company, trigger_level = -0.25):#, date, num_shares, price, total_cost, trigger_level = -0.25):
+    def __init__(self, company, table="purchases", trigger_level = -0.25):
         self._company = company
         self._company = self.string_converter()
-        #self._data = date
-        #self._num_shares = num_shares
-        #self._price = price
-
+        self._table = table
+ 
         self._conn = sqlite3.connect("data/owned/%s.db" % self._company)
         self._cur = self._conn.cursor()
-        self._cur.execute("CREATE TABLE IF NOT EXISTS %s (id INTEGER PRIMARY KEY, date TEXT, num_shares REAL, price REAL, total_cost REAL)" % self._)
+        if self._table == "purchases":
+            self._cur.execute("CREATE TABLE IF NOT EXISTS purchases (id INTEGER PRIMARY KEY, date TEXT, num_shares REAL, price REAL, total_cost REAL)")
+        elif self._table == "dividend":
+            self._cur.execute("CREATE TABLE IF NOT EXISTS dividends (id INTEGER PRIMARY KEY, date TEXT, dividend_per_share REAL, total_dividend REAL)")
         self._conn.commit()
 
         self._trigger_level = trigger_level
         
         self._data = self.view()
-        print(self._data)
         self._average_price = self.calc_average_price()
-        print(self._average_price)
 
     def string_converter(self):
 
@@ -42,28 +41,29 @@ class OwnedStocks:
 
             return output_string.lower()
 
-    def insert(self, date, num_shares, price, total_cost):
-        self._cur.execute("INSERT INTO %s VALUES (NULL, ?, ?, ?, ?)" % self._company, (date, num_shares, price, total_cost))
+    def insert_purchases(self, date, num_shares, price, total_cost):
+        self._cur.execute("INSERT INTO purchases VALUES (NULL, ?, ?, ?, ?)", (date, num_shares, price, total_cost))
+        self._conn.commit()
+
+    def insert_dividends(self, date, num_shares, price, total_cost):
+        self._cur.execute("INSERT INTO dividends VALUES (NULL, ?, ?, ?, ?)", (date, num_shares, price, total_cost))
         self._conn.commit()
 
     def view(self):
-        self._cur.execute("SELECT * FROM %s" % self._company)
+        self._cur.execute("SELECT * FROM %s" % self._table)
         rows =self._cur.fetchall()
-        print(rows)
         return rows
     
-    def calc_average_price(self):#num_shares, price):
+    def calc_average_price(self):
 
         if not len(self._data) > 0:
             return 0
 
-        print(self._data[1][1])
         numerator = 0
         tot_num_shares = 10
         for i in range(len(self._data)):
-            print(self._data[i][1])
-            #numerator +=  self._data[i][1] * self._data[i][2] # num_shares * price
-            #tot_num_shares += self._data[i][1] # num_shares
+            numerator +=  self._data[i][2] * self._data[i][3] # num_shares * price
+            tot_num_shares += self._data[i][2] # num_shares
             
         weighted_average_price = numerator / tot_num_shares
 
