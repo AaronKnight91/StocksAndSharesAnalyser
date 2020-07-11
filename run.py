@@ -26,9 +26,12 @@ def run(args):
         price = input("Please enter the price at which you bought the shares: ")
         total_cost = input("Please enter the total cost of the transaction: ")
         share = OwnedStocks(str(company))#, trigger_level = -0.25)
-        share.insert_purchases(str(date), float(num_shares), float(price), float(total_cost))
-        share.update_ave_price()
+        share.get_new_purchase(str(date), float(num_shares), float(price), float(total_cost))
+        share.calc_average_price()
         print(share._average_price)
+        
+        share.insert_purchases(str(date), float(num_shares), float(price), float(total_cost))
+        print(share.view())
         
 def scrape_data(today, l):
 
