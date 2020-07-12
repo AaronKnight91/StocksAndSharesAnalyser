@@ -27,7 +27,8 @@ class OwnedStocks:
         self._new_purchase = ()
         self._new_dividend = ()
         self._data = self.view()
-        self._average_price = 0
+        self._average_price = self.calc_average_price()
+        self._total_dividend = self.calc_total_dividend()
 
     def get_new_purchase(self, date, num_shares, price, total_cost):
         self._new_purchase = (0, date, num_shares, price, total_cost)
@@ -63,9 +64,9 @@ class OwnedStocks:
             numerator +=  self._data[i][2] * self._data[i][3] # num_shares * price
             tot_num_shares += self._data[i][2] # num_shares
 
-        print(self._new_purchase[2], self._new_purchase[3])
-        numerator += self._new_purchase[2] * self._new_purchase[3]
-        tot_num_shares += self._new_purchase[2]
+        if len(self._new_purchase) > 0:
+            numerator += self._new_purchase[2] * self._new_purchase[3]
+            tot_num_shares += self._new_purchase[2]
 
         try:
             weighted_average_price = numerator / tot_num_shares
@@ -73,6 +74,18 @@ class OwnedStocks:
             print(error)
 
         self._average_price = weighted_average_price
+
+    def calc_total_dividend(self):
+
+        tot = 0
+        for i in range(len(self._data)):
+            tot += self._data[3]
+
+        if len(self._new_dividend) > 0:
+            tot += self._new_dividend[3]
+
+        self._total_dividend = tot
+        
         
     def trigger(self, current_price):
 

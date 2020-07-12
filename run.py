@@ -45,7 +45,9 @@ def run(args):
 
             share.get_new_dividend(str(date), str(dividend_per_share), str(total_dividend))
             share.insert_dividend(str(date), str(dividend_per_share), str(total_dividend))
-    
+            share.calc_total_dividend()
+
+            print(share._total_dividend)
         
 def scrape_data(today, l):
 
