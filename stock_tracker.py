@@ -35,21 +35,6 @@ class OwnedStocks:
     def get_new_dividend(self, date, dividend_per_share, total_dividend):
         self._new_dividend(0, date dividend_per_share, total_dividend)
         
-    def string_converter(self):
-
-        d = { 0 : 'zero', 1 : 'one', 2 : 'two', 3 : 'three', 4 : 'four', 5 : 'five', 6 : 'six', 7 : 'seven', 8 : 'eight', 9 : 'nine'}
-
-        output_string = ""
-        for character in self._company:
-            if character.isnumeric():
-                output_string += d[int(character)]
-            elif not character.isalnum():
-                continue
-            else:
-                output_string += character
-
-        return output_string.lower()
-
     def insert_purchases(self, date, num_shares, price, total_cost):
         self._cur.execute("INSERT INTO purchases VALUES (NULL, ?, ?, ?, ?, ?)", (date, num_shares, price, total_cost, self._average_price))
         self._conn.commit()
@@ -63,6 +48,13 @@ class OwnedStocks:
         rows =self._cur.fetchall()
         return rows
     
+    def delete(self, id):
+        self._cur.execute("DELETE FROM %s WHERE id=?" % self._table,(id,))
+        self._conn.commit()
+
+    def __del__(self):
+        self._conn.close()
+
     def calc_average_price(self):
 
         numerator = 0
@@ -90,3 +82,18 @@ class OwnedStocks:
         else:
             return False
 
+
+    def string_converter(self):
+
+        d = { 0 : 'zero', 1 : 'one', 2 : 'two', 3 : 'three', 4 : 'four', 5 : 'five', 6 : 'six', 7 : 'seven', 8 : 'eight', 9 : 'nine'}
+
+        output_string = ""
+        for character in self._company:
+            if character.isnumeric():
+                output_string += d[int(character)]
+            elif not character.isalnum():
+                continue
+            else:
+                output_string += character
+
+        return output_string.lower()
