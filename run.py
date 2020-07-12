@@ -35,21 +35,26 @@ def run(args):
             print(share.view())
 
             q = input("Do you want to add another purchase (Y/N)?: ")
-            if str(q) == "N":
+            if str(q).upper() == "N":
                 break
             
     elif args.stocktracker == "dividends":
+        while True:
             company = input("Please enter the name of the company you have bought: ")
             date = input("Please enter the date you bought the shares using the YYYY/MM/DD format: ")
             dividend_per_share = input("Please enter the vale of the dividend per share: ")
             total_dividend = input("Please enter the value of the total dividend payment: ")
 
-            share = OwnedStocks(str(company))
-            share.get_new_dividend(str(date), str(dividend_per_share), str(total_dividend))
-            share.insert_dividend(str(date), str(dividend_per_share), str(total_dividend))
+            share = OwnedStocks(str(company), table="dividends")
+            share.get_new_dividend(str(date), float(dividend_per_share), float(total_dividend))
+            share.insert_dividend(str(date), float(dividend_per_share), float(total_dividend))
             share.calc_total_dividend()
 
             print(share._total_dividend)
+
+            q = input("Do you want to add another dividend payment (Y/N)?: ")
+            if str(q).upper() == "N":
+                break
         
 def scrape_data(today, l):
 

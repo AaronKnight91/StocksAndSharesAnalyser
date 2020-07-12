@@ -20,27 +20,29 @@ class OwnedStocks:
         self._cur = self._conn.cursor()
         if self._table == "purchases":
             self._cur.execute("CREATE TABLE IF NOT EXISTS purchases (id INTEGER PRIMARY KEY, date TEXT, num_shares REAL, price REAL, total_cost REAL, average_price REAL)")
-        elif self._table == "dividend":
+        elif self._table == "dividends":
             self._cur.execute("CREATE TABLE IF NOT EXISTS dividends (id INTEGER PRIMARY KEY, date TEXT, dividend_per_share REAL, total_dividend REAL)")
         self._conn.commit()
 
         self._new_purchase = ()
         self._new_dividend = ()
         self._data = self.view()
-        self._average_price = self.calc_average_price()
-        self._total_dividend = self.calc_total_dividend()
+        if table == "purchases":
+            self._average_price = self.calc_average_price()
+        elif table == "dividends":
+            self._total_dividend = self.calc_total_dividend()
 
     def get_new_purchase(self, date, num_shares, price, total_cost):
         self._new_purchase = (0, date, num_shares, price, total_cost)
 
     def get_new_dividend(self, date, dividend_per_share, total_dividend):
-        self._new_dividend(0, date, dividend_per_share, total_dividend)
+        self._new_dividend = (0, date, dividend_per_share, total_dividend)
         
     def insert_purchases(self, date, num_shares, price, total_cost):
         self._cur.execute("INSERT INTO purchases VALUES (NULL, ?, ?, ?, ?, ?)", (date, num_shares, price, total_cost, self._average_price))
         self._conn.commit()
 
-    def insert_dividends(self, date, dividend_per_share, total_dividend):
+    def insert_dividend(self, date, dividend_per_share, total_dividend):
         self._cur.execute("INSERT INTO dividends VALUES (NULL, ?, ?, ?)", (date, dividend_per_share, total_dividend))
         self._conn.commit()
 
@@ -79,7 +81,7 @@ class OwnedStocks:
 
         tot = 0
         for i in range(len(self._data)):
-            tot += self._data[3]
+            tot += self._data[i][3]
 
         if len(self._new_dividend) > 0:
             tot += self._new_dividend[3]
