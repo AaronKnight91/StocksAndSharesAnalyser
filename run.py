@@ -39,7 +39,12 @@ def run(args):
                 break
             
     elif args.stocktracker == "dividends":
-        pass
+            date = input("Please enter the date you bought the shares using the YYYY/MM/DD format: ")
+            dividend_per_share = input("Please enter the vale of the dividend per share: ")
+            total_dividend = input("Please enter the value of the total dividend payment: ")
+
+            share.get_new_dividend(str(date), str(dividend_per_share), str(total_dividend))
+            share.insert_dividend(str(date), str(dividend_per_share), str(total_dividend))
     
         
 def scrape_data(today, l):
