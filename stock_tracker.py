@@ -34,7 +34,7 @@ class OwnedStocks:
         self._new_purchase = (0, date, num_shares, price, total_cost)
 
     def get_new_dividend(self, date, dividend_per_share, total_dividend):
-        self._new_dividend(0, date dividend_per_share, total_dividend)
+        self._new_dividend(0, date, dividend_per_share, total_dividend)
         
     def insert_purchases(self, date, num_shares, price, total_cost):
         self._cur.execute("INSERT INTO purchases VALUES (NULL, ?, ?, ?, ?, ?)", (date, num_shares, price, total_cost, self._average_price))
