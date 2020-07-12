@@ -165,7 +165,7 @@ def check_arguments():
     parser = argparse.ArgumentParser(description="Arguments for the Investment App")
 
     parser.add_argument("--noscrapping","-ns",action="store_true",help="This argument will run the programme without scrapping data. Also, the analysis will not run.")
-    parser.add_argument("--stocktracker","-st",type=str,help="This allows the user to enter purchases or dividends into a sql table",choices=["None","purchases","dividends",default="None")
+    parser.add_argument("--stocktracker","-st",type=str,help="This allows the user to enter purchases or dividends into a sql table",choices=["None","purchases","dividends"],default="None")
     parser.add_argument("--noanalysis","-na",action="store_true",help="This argument will run the programme without analysising the data")
 
     #parser.add_argument("--data","-d",type=str,help="The path that any data will be read from/to will be saved to",default="data")
