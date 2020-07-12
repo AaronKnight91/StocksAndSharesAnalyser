@@ -39,10 +39,12 @@ def run(args):
                 break
             
     elif args.stocktracker == "dividends":
+            company = input("Please enter the name of the company you have bought: ")
             date = input("Please enter the date you bought the shares using the YYYY/MM/DD format: ")
             dividend_per_share = input("Please enter the vale of the dividend per share: ")
             total_dividend = input("Please enter the value of the total dividend payment: ")
 
+            share = OwnedStocks(str(company))
             share.get_new_dividend(str(date), str(dividend_per_share), str(total_dividend))
             share.insert_dividend(str(date), str(dividend_per_share), str(total_dividend))
             share.calc_total_dividend()
