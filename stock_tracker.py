@@ -25,11 +25,15 @@ class OwnedStocks:
         self._conn.commit()
 
         self._new_purchase = ()
+        self._new_dividend = ()
         self._data = self.view()
         self._average_price = 0
 
     def get_new_purchase(self, date, num_shares, price, total_cost):
         self._new_purchase = (0, date, num_shares, price, total_cost)
+
+    def get_new_dividend(self, date, dividend_per_share, total_dividend):
+        self._new_dividend(0, date dividend_per_share, total_dividend)
         
     def string_converter(self):
 
@@ -50,8 +54,8 @@ class OwnedStocks:
         self._cur.execute("INSERT INTO purchases VALUES (NULL, ?, ?, ?, ?, ?)", (date, num_shares, price, total_cost, self._average_price))
         self._conn.commit()
 
-    def insert_dividends(self, date, num_shares, price, total_cost):
-        self._cur.execute("INSERT INTO dividends VALUES (NULL, ?, ?, ?, ?)", (date, num_shares, price, total_cost))
+    def insert_dividends(self, date, dividend_per_share, total_dividend):
+        self._cur.execute("INSERT INTO dividends VALUES (NULL, ?, ?, ?)", (date, dividend_per_share, total_dividend))
         self._conn.commit()
 
     def view(self):
