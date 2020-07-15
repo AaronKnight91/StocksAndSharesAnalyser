@@ -9,7 +9,6 @@ class InvestingIncomeStatementScrapper(BaseScrapper):
     def __init__(self, webpage):
         BaseScrapper.__init__(self, webpage)
         self._html = self._soup.find_all("tr")
-        print(self._html)
 
         self._years = self.get_year()
         self._total_revenue = self.get_total_revenue()
