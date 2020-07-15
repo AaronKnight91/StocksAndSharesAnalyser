@@ -4,7 +4,7 @@ import bs4
 
 from base_scrapper import BaseScrapper
 
-class InvestingScrapper(BaseScrapper):
+class InvestingRatioScrapper(BaseScrapper):
 
     """
     The company class stores metrics for analysis.
