@@ -12,7 +12,7 @@ class InvestingIncomeStatementScrapper(BaseScrapper):
 
         year = self._html[0].find_all("th")[2].text # 1 - 4
         revenue = self._html[1].find_all("td")[1].text
-        other_revenue = self._html[1].find_all("td")[1].text
+        other_revenue = self._html[1].find_all("td")[6].text
         
 class InvestingBalanceSheetScrapper(BaseScrapper):
 
