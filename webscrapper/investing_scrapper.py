@@ -8,11 +8,29 @@ class InvestingIncomeStatementScrapper(BaseScrapper):
 
     def __init__(self, webpage):
         BaseScrapper.__init__(self, webpage)
-        self._html = self._soup.find_all("table", {"class":"genTbl reportTbl"})
+        self._html = self._soup.find_all("td")#"table", {"class":"genTbl reportTbl"})
 
-        year = self._html[0].find_all("th")[2].text # 1 - 4
-        revenue = self._html[1].find_all("td")[1].text
-        other_revenue = self._html[1].find_all("td")[6].text
+        year = self._html[7].find_all("th")[2].text # 1 - 4
+        total_revenue = self._html[8].find_all("th")
+        revenue = self._html[10]#.find_all("td")[1].text
+        other_revenue = self._html[11]#.find_all("td")[6].text
+        total_cost_of_revenue = self._html[12]
+
+    def get_year(self):
+        years = []
+        for i in range(1, 5):
+            year = self._html[7].find_all("th")[i].text[:5]
+            years.append(year)
+
+        return years
+
+    def get_total_revenue(self):
+        holder = []
+        for i in range(1, 5):
+            total_revenue = self._html[8].find_all("td")[i].text
+            holder.append(total_revenue)
+
+        return holder
         
 class InvestingBalanceSheetScrapper(BaseScrapper):
 
