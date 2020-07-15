@@ -4,6 +4,26 @@ import bs4
 
 from base_scrapper import BaseScrapper
 
+class InvestingIncomeStatementScrapper(BaseScrapper):
+
+    def __init__(self, webpage):
+        BaseScrapper.__init__(self, webpage)
+
+class InvestingBalanceSheetScrapper(BaseScrapper):
+
+    def __init__(self, webpage):
+        BaseScrapper.__init__(self, webpage)
+
+class InvestingCashFlowScrapper(BaseScrapper):
+
+    def __init__(self, webpage):
+        BaseScrapper.__init__(self, webpage)
+
+class InvestingDividendsScrapper(BaseScrapper):
+
+    def __init__(self, webpage):
+        BaseScrapper.__init__(self, webpage)
+
 class InvestingRatioScrapper(BaseScrapper):
 
     """
