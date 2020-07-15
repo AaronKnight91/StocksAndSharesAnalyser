@@ -12,7 +12,7 @@ class BaseScrapper:
     def __init__(self, webpage):
 
         self._webpage = webpage
-        self._html = self.get_webpage()
+        self._soup = self.get_webpage()
         
             
     def get_webpage(self):
@@ -20,9 +20,9 @@ class BaseScrapper:
             req = Request(self._webpage, headers={'User-Agent':'Mozilla/5.0'})
             webpage = urlopen(req, timeout=30).read()
             soup = bs4.BeautifulSoup(webpage,"html.parser")
-            all = soup.find_all("tr",{"class":"child"})
+            #all = soup.find_all("tr",{"class":"child"})
         
-            return all
+            return soup#all
         
         except URLError as urlerror:
             print("[ERROR]:", urlerror)

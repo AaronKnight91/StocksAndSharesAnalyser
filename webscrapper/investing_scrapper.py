@@ -33,6 +33,7 @@ class InvestingRatioScrapper(BaseScrapper):
 
     def __init__(self, webpage):
         BaseScrapper.__init__(self, webpage)
+        self._html = self._soup.find_all("tr",{"class":"child"})
         
         if not self._html == None: 
             self._pe_ratio = self.get_pe_ratio()
