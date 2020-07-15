@@ -7,6 +7,7 @@ import pandas as pd
 from company import Company
 from company_database import CompanyDatabase
 from analysis import AnalyseRatios
+from stock_tracker import OwnedStocks
 
 def run(args):
     today = datetime.now().strftime("%Y%m%d")
@@ -18,6 +19,44 @@ def run(args):
     if not args.noanalysis or not args.noscrapping:
         run_analysis(l)
 
+    if args.stocktracker == "purchases":
+        while True:
+            company = input("Please enter the name of the company you have bought: ")
+            date = input("Please enter the date you bought the shares using the YYYY/MM/DD format: ")
+            portfolio = input("What portfolio is the company part of? ")
+            num_shares = input("Please enter the number of shares you bought: ")
+            price = input("Please enter the price at which you bought the shares: ")
+            total_cost = input("Please enter the total cost of the transaction: ")
+
+            share = OwnedStocks(str(company))#, trigger_level = -0.25)
+            share.get_new_purchase(str(date), str(portfolio), float(num_shares), float(price), float(total_cost))
+            share.calc_average_price()
+            share.insert_purchases(str(date), str(portfolio), float(num_shares), float(price), float(total_cost))
+
+            q = input("Do you want to add another purchase (Y/N)?: ")
+            if str(q).upper() == "N":
+                break
+            
+    elif args.stocktracker == "dividends":
+        while True:
+            company = input("Please enter the name of the company you have bought: ")
+            date = input("Please enter the date you were paid this dividend using the YYYY/MM/DD format: ")
+            portfolio = input("What portfolio is the company part of? ")
+            div_type = input("What type of dividend is this? ")
+            dividend_per_share = input("Please enter the vale of the dividend per share: ")
+            total_dividend = input("Please enter the value of the total dividend payment: ")
+
+            share = OwnedStocks(str(company), table="dividends")
+            share.get_new_dividend(str(date), str(portfolio), str(div_type), float(dividend_per_share), float(total_dividend))
+            share.insert_dividend(str(date), str(portfolio), str(div_type), float(dividend_per_share), float(total_dividend))
+            share.calc_total_dividend()
+
+            print("Total Dividend to date: ", share._total_dividend)
+
+            q = input("Do you want to add another dividend payment (Y/N)?: ")
+            if str(q).upper() == "N":
+                break
+        
 def scrape_data(today, l):
 
     df = pd.read_csv("%s/%s" % (args.input, args.indata), encoding = "ISO-8859-1")
@@ -134,6 +173,7 @@ def check_arguments():
     parser = argparse.ArgumentParser(description="Arguments for the Investment App")
 
     parser.add_argument("--noscrapping","-ns",action="store_true",help="This argument will run the programme without scrapping data. Also, the analysis will not run.")
+    parser.add_argument("--stocktracker","-st",type=str,help="This allows the user to enter purchases or dividends into a sql table",choices=["None","purchases","dividends"],default="None")
     parser.add_argument("--noanalysis","-na",action="store_true",help="This argument will run the programme without analysising the data")
 
     #parser.add_argument("--data","-d",type=str,help="The path that any data will be read from/to will be saved to",default="data")
