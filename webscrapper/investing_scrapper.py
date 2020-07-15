@@ -8,7 +8,8 @@ class InvestingIncomeStatementScrapper(BaseScrapper):
 
     def __init__(self, webpage):
         BaseScrapper.__init__(self, webpage)
-        self._html = self._soup.find_all("td")
+        self._html = self._soup.find_all("tr")
+        print(self._html)
 
         self._years = self.get_year()
         self._total_revenue = self.get_total_revenue()
@@ -24,7 +25,7 @@ class InvestingIncomeStatementScrapper(BaseScrapper):
         self._unusual_expense = self.get_unusual_expense()
         self._other_operating_expenses = self.get_other_operating_expenses()
         self._operating_income = self.get_operating_income()
-        self._get_interest_income = self.get_interest_income():
+        self._get_interest_income = self.get_interest_income()
         self._gain_on_sales_of_assets = self.get_gain_on_sales_of_assets()
         self._net_other = self.get_net_other()
         self._net_income_before_taxes = self.get_net_income_before_taxes()
@@ -48,7 +49,7 @@ class InvestingIncomeStatementScrapper(BaseScrapper):
     def get_year(self):
         years = []
         for i in range(1, 5):
-            year = self._html[7].find_all("th")[i].text[:5]
+            year = self._html[7].find_all("th")[i].text[:4]
             years.append(year)
 
         return years
