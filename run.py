@@ -5,6 +5,7 @@ import csv
 import time
 from datetime import datetime
 import pandas as pd
+import os
 
 from company import Company
 from company_database import CompanyDatabase
@@ -12,6 +13,7 @@ from analysis import AnalyseRatios
 from stock_tracker import OwnedStocks
 
 def run(args):
+
     today = datetime.now().strftime("%Y%m%d")
     l = []
 
@@ -61,7 +63,7 @@ def run(args):
         
 def scrape_data(today, l):
 
-    df = pd.read_csv("%s/%s" % (args.input, args.indata), encoding = "ISO-8859-1")
+    df = pd.read_csv(os.path.abspath("%s/%s" % (args.input, args.indata)), encoding = "ISO-8859-1")
 
     length = len(df)
     while length > 0:
@@ -88,7 +90,7 @@ def scrape_data(today, l):
                          "payout_ratio":company._payout_ratio}
                     l.append(d)
                     
-                    cdb = CompanyDatabase("%s/%s" % (args.databases,args.savedatabase), sql_table_name)
+                    cdb = CompanyDatabase(os.path.abspath("%s/%s" % (args.databases,args.savedatabase)), sql_table_name)
                     cdb.insert(today,
                                float(company._pe_ratio),
                                float(company._ps_ratio),
