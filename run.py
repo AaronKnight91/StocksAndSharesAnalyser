@@ -179,9 +179,9 @@ def check_arguments():
     parser.add_argument("--noanalysis","-na",action="store_true",help="This argument will run the programme without analysising the data")
 
     #parser.add_argument("--data","-d",type=str,help="The path that any data will be read from/to will be saved to",default="data")
-    parser.add_argument("--input","-i",type=str,help="The path where your input files are saved",default="./data/inputs")
-    parser.add_argument("--databases","-db",type=str,help="The path where your databases will be stored",default="./data/databases")
-    parser.add_argument("--analysis","-a", type=str,help="The path where the analysed csv files will be saved",default="./data/analysis")
+    parser.add_argument("--input","-i",type=str,help="The path where your input files are saved",default="/home/aaron/investment_app/data/inputs")
+    parser.add_argument("--databases","-db",type=str,help="The path where your databases will be stored",default="/home/aaron/investment_app/data/databases")
+    parser.add_argument("--analysis","-a", type=str,help="The path where the analysed csv files will be saved",default="/home/aaron/investment_app/data/analysis")
 
     parser.add_argument("--indata","-id",type=str,help="The csv file that will be used to get the data from",default="freetrade_uk_shares.csv")
     parser.add_argument("--savedatabase","-sb",type=str,help="The database in which company data will be saved",default="companies.db")
