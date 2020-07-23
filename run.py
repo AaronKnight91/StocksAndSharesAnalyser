@@ -144,10 +144,11 @@ def scrape_data(today, l):
                     
                     cdb.__del__()
                     df.drop(index, inplace=True)
-                    time.sleep(1) # Make programme sleep for 1 second
             except Exception as error:                                                                                                               
                 print("[ERROR]: Moving on to next company. This company will be attempted again later.")
 
+            time.sleep(1) # Make programme sleep for 1 second
+                    
 def string_converter(input_string):
 
     d = { 0 : 'zero', 1 : 'one', 2 : 'two', 3 : 'three', 4 : 'four', 5 : 'five', 6 : 'six', 7 : 'seven', 8 : 'eight', 9 : 'nine'}
