@@ -64,9 +64,10 @@ def run(args):
 def scrape_data(today, l):
 
     df = pd.read_csv(os.path.abspath("%s/%s" % (args.input, args.indata)), encoding = "ISO-8859-1")
-
+    
+    loops = 0
     length = len(df)
-    while length > 0:
+    while length > 0 or loops < 10:
         length = len(df)
         for index, row in df.iterrows():
             print("# Scrapping data for %s" % row["Company Name"])
@@ -147,7 +148,8 @@ def scrape_data(today, l):
             except Exception as error:                                                                                                               
                 print("[ERROR]: Moving on to next company. This company will be attempted again later.")
 
-            time.sleep(1) # Make programme sleep for 1 second
+            loops += 1
+            time.sleep(2) # Make programme sleep for 1 second
                     
 def string_converter(input_string):
 
