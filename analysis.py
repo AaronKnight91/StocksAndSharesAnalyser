@@ -44,6 +44,7 @@ class AnalyseRatios:
                                                 print(error)
 
             self._new_df = pd.DataFrame(self._l, columns = self._columns)
+            self._new_df.set_index("Company Name", inplace=True)
 
     def save_output(self):
         self._new_df.to_csv("%s/%s_analysed_companies.csv" % (self._opath,self._today))
@@ -81,7 +82,7 @@ class AnalyseRatios:
         self._df.drop(self._df[self._df.payout_ratio < 0].index, inplace=True)
 
     def save_to_csv(self):
-        self._df.to_csv("%s/analysis/%s_analysed_companies.csv" % (self._opath,self._today),index=False)
+        self._df.to_csv("%s/analysis/%s_analysed_companies.csv" % (self._opath,self._today))
         
     def append_to_csv(self):
         self._df.to_csv("%s/analysis/%s_analysed_companies.csv" % (self._opath,self._today), mode="a", header=False)
