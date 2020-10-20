@@ -1,8 +1,11 @@
+#!/usr/bin/env python3
+
 import argparse
 import csv
 import time
 from datetime import datetime
 import pandas as pd
+import os
 
 from company import Company
 from company_database import CompanyDatabase
@@ -10,6 +13,7 @@ from analysis import AnalyseRatios
 from stock_tracker import OwnedStocks
 
 def run(args):
+
     today = datetime.now().strftime("%Y%m%d")
     l = []
 
@@ -59,10 +63,11 @@ def run(args):
         
 def scrape_data(today, l):
 
-    df = pd.read_csv("%s/%s" % (args.input, args.indata), encoding = "ISO-8859-1")
-
+    df = pd.read_csv(os.path.abspath("%s/%s" % (args.input, args.indata)), encoding = "ISO-8859-1")
+    
+    loops = 0
     length = len(df)
-    while length > 0:
+    while length > 0 or loops < 10:
         length = len(df)
         for index, row in df.iterrows():
             print("# Scrapping data for %s" % row["Company Name"])
@@ -86,7 +91,7 @@ def scrape_data(today, l):
                          "payout_ratio":company._payout_ratio}
                     l.append(d)
                     
-                    cdb = CompanyDatabase("%s/%s" % (args.databases,args.savedatabase), sql_table_name)
+                    cdb = CompanyDatabase(os.path.abspath("%s/%s" % (args.databases,args.savedatabase)), sql_table_name)
                     cdb.insert(today,
                                float(company._pe_ratio),
                                float(company._ps_ratio),
@@ -140,10 +145,12 @@ def scrape_data(today, l):
                     
                     cdb.__del__()
                     df.drop(index, inplace=True)
-                    time.sleep(1) # Make programme sleep for 1 second
             except Exception as error:                                                                                                               
                 print("[ERROR]: Moving on to next company. This company will be attempted again later.")
 
+            loops += 1
+            time.sleep(2) # Make programme sleep for 1 second
+                    
 def string_converter(input_string):
 
     d = { 0 : 'zero', 1 : 'one', 2 : 'two', 3 : 'three', 4 : 'four', 5 : 'five', 6 : 'six', 7 : 'seven', 8 : 'eight', 9 : 'nine'}
@@ -177,9 +184,9 @@ def check_arguments():
     parser.add_argument("--noanalysis","-na",action="store_true",help="This argument will run the programme without analysising the data")
 
     #parser.add_argument("--data","-d",type=str,help="The path that any data will be read from/to will be saved to",default="data")
-    parser.add_argument("--input","-i",type=str,help="The path where your input files are saved",default="./data/inputs")
-    parser.add_argument("--databases","-db",type=str,help="The path where your databases will be stored",default="./data/databases")
-    parser.add_argument("--analysis","-a", type=str,help="The path where the analysed csv files will be saved",default="./data/analysis")
+    parser.add_argument("--input","-i",type=str,help="The path where your input files are saved",default="/home/aaron/investment_app/data/inputs")
+    parser.add_argument("--databases","-db",type=str,help="The path where your databases will be stored",default="/home/aaron/investment_app/data/databases")
+    parser.add_argument("--analysis","-a", type=str,help="The path where the analysed csv files will be saved",default="/home/aaron/investment_app/data/analysis")
 
     parser.add_argument("--indata","-id",type=str,help="The csv file that will be used to get the data from",default="freetrade_uk_shares.csv")
     parser.add_argument("--savedatabase","-sb",type=str,help="The database in which company data will be saved",default="companies.db")

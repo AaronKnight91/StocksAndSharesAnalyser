@@ -81,7 +81,7 @@ class AnalyseRatios:
         self._df.drop(self._df[self._df.payout_ratio < 0].index, inplace=True)
 
     def save_to_csv(self):
-        self._df.to_csv("%s/analysis/%s_analysed_companies.csv" % (self._opath,self._today))
+        self._df.to_csv("%s/analysis/%s_analysed_companies.csv" % (self._opath,self._today),index=False)
         
     def append_to_csv(self):
         self._df.to_csv("%s/analysis/%s_analysed_companies.csv" % (self._opath,self._today), mode="a", header=False)
