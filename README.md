@@ -19,3 +19,11 @@ There are a number of command line arguments the user can use. To view all these
 ```
 python run.py -h
 ```
+
+It is possible to see the analysis of stocks for the current day by running:
+```
+python checkout_analysis.py
+```
+This script takes two arguments:
+--path for declaring the path in which the file csv you want to look at is saved
+--file for declaring the name of the csv file you want to look at
