@@ -75,10 +75,18 @@ def scrape_data(today, l):
             sql_table_name = string_converter(row["Company Name"])
 
             try:
-                if row["Investing.com"] == "None":
-                    df.drop(index, inplace=True)
-                    continue
-                company = Company(row["Investing.com"])
+                if args.indata == "lse_shares_list.csv":
+                    if row["Ratios Investing"] == "None" or row["Ratios Investing"] == "N/A":
+                        df.drop(index, inplace=True)
+                        continue
+                else:
+                    if row["Investing.com"] == "None":
+                        df.drop(index, inplace=True)
+                        continue
+                if args.indata == "lse_shares_list.csv":
+                    company = Company(row["Ratios Investing"])
+                else:
+                    company = Company(row["Investing.com"])
                 if not args.noanalysis:
                     d = {}
                     d = {"Company Name": row[0],
@@ -149,7 +157,7 @@ def scrape_data(today, l):
                 print("[ERROR]: Moving on to next company. This company will be attempted again later.")
 
             loops += 1
-            time.sleep(2) # Make programme sleep for 1 second
+            time.sleep(1) # Make programme sleep for 1 second
                     
 def string_converter(input_string):
 
