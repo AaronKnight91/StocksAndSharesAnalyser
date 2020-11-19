@@ -64,10 +64,12 @@ def run(args):
 def scrape_data(today, l):
 
     df = pd.read_csv(os.path.abspath("%s/%s" % (args.input, args.indata)), encoding = "ISO-8859-1")
+    if args.indata == "lse_shares_list.csv":
+        df = df.dropna(axis=0, subset=['Ratios Investing'])        
     
     loops = 0
     length = len(df)
-    while length > 0 or loops < 10:
+    while length > 0 or loops < 2:#10:
         length = len(df)
         for index, row in df.iterrows():
             print("# Scrapping data for %s" % row["Company Name"])
