@@ -64,10 +64,12 @@ def run(args):
 def scrape_data(today, l):
 
     df = pd.read_csv(os.path.abspath("%s/%s" % (args.input, args.indata)), encoding = "ISO-8859-1")
+    if args.indata == "lse_shares_list.csv":
+        df = df.dropna(axis=0, subset=['Ratios Investing'])        
     
     loops = 0
     length = len(df)
-    while length > 0 or loops < 10:
+    while length > 0 or loops < 2:#10:
         length = len(df)
         for index, row in df.iterrows():
             print("# Scrapping data for %s" % row["Company Name"])
@@ -75,10 +77,18 @@ def scrape_data(today, l):
             sql_table_name = string_converter(row["Company Name"])
 
             try:
-                if row["Investing.com"] == "None":
-                    df.drop(index, inplace=True)
-                    continue
-                company = Company(row["Investing.com"])
+                if args.indata == "lse_shares_list.csv":
+                    if row["Ratios Investing"] == "None" or row["Ratios Investing"] == "N/A":
+                        df.drop(index, inplace=True)
+                        continue
+                else:
+                    if row["Investing.com"] == "None":
+                        df.drop(index, inplace=True)
+                        continue
+                if args.indata == "lse_shares_list.csv":
+                    company = Company(row["Ratios Investing"])
+                else:
+                    company = Company(row["Investing.com"])
                 if not args.noanalysis:
                     d = {}
                     d = {"Company Name": row[0],
@@ -149,7 +159,7 @@ def scrape_data(today, l):
                 print("[ERROR]: Moving on to next company. This company will be attempted again later.")
 
             loops += 1
-            time.sleep(2) # Make programme sleep for 1 second
+            time.sleep(1) # Make programme sleep for 1 second
                     
 def string_converter(input_string):
 
