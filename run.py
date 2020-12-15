@@ -100,10 +100,11 @@ def scrape_data(today, l):
                          "dividend_yield":company._dividend_yield,
                          "payout_ratio":company._payout_ratio}
                     l.append(d)
-                    
-                    cdb = CompanyDatabase(os.path.abspath("%s/%s" % (args.databases,args.savedatabase)), sql_table_name)
-                    cdb.insert(today,
-                               float(company._pe_ratio),
+
+                    print("DEBUG1")
+                    cdb = CompanyDatabase(today, os.path.abspath("%s/%s" % (args.databases,args.savedatabase)), sql_table_name)
+                    print("DEBUG2")
+                    cdb.insert(float(company._pe_ratio),
                                float(company._ps_ratio),
                                float(company._cash_flow),
                                float(company._free_cash_flow),
