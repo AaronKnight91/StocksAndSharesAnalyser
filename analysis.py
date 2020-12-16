@@ -1,5 +1,6 @@
 from datetime import datetime
 import pandas as pd
+import os
 
 class AnalyseRatios:
 
@@ -84,15 +85,15 @@ class AnalyseRatios:
     def save_to_csv(self):
         year = self._today[:4]
         month = self._today[4:6]
-        create_file_path(year, month)
-        self._df.to_csv("%s/analysis/%s/%s/%s_analysed_companies.csv" % (self._opath,year,month,self._today))
+        self.create_file_path(year, month)
+        self._new_df.to_csv("%s/outputs/%s/%s/%s_analysed_companies.csv" % (self._opath,year,month,self._today))
         
     def append_to_csv(self):
         year = self._today[:4]
         month = self._today[4:6]
-        create_file_path(year, month)
-        self._df.to_csv("%s/analysis/%s/%s/%s_analysed_companies.csv" % (self._opath,year,month,self._today), mode="a", header=False)
+        self.create_file_path(year, month)
+        self._new_df.to_csv("%s/outputs/%s/%s/%s_analysed_companies.csv" % (self._opath,year,month,self._today), mode="a", header=False)
 
     def create_file_path(self, year, month):
-        if not os.isdir("%s/analysis/%s/%s" % (self._opath,year,month)):
-            os.mkdir("%s/analysis/%s/%s" % (self._opath,year,month))
+        if not os.path.exists("%s/outputs/%s/%s" % (self._opath,year,month)):
+            os.makedirs("%s/outputs/%s/%s" % (self._opath,year,month))

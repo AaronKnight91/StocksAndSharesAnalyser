@@ -182,8 +182,9 @@ def run_analysis(data):
     print("# Analysing results...")
     analysis = AnalyseRatios(args.analysis,df)
     analysis.analyse()
-    analysis.save_output()
-
+    #analysis.save_output()
+    analysis.save_to_csv()
+    
 def check_arguments():
 
     parser = argparse.ArgumentParser(description="Arguments for the Investment App")
