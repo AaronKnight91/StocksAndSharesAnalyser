@@ -198,7 +198,7 @@ def check_arguments():
     parser.add_argument("--analysis","-a", type=str,help="The path where the analysed csv files will be saved",default="/home/aaron/investment_app/data/analysis")
 
     parser.add_argument("--indata","-id",type=str,help="The csv file that will be used to get the data from",default="freetrade_uk_shares.csv")
-    parser.add_argument("--savedatabase","-sb",type=str,help="The database in which company data will be saved",default="companies.db")
+    parser.add_argument("--savedatabase","-sb",type=str,help="The database in which company data will be saved",default="lse_companies_2020_ratios.db")
     
     args = parser.parse_args()
     
