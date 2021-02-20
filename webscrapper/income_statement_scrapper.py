@@ -14,9 +14,11 @@ class IncomeStatement(BaseScrapper):
             if ind == 0:
                 continue
             self.get_periods(i)
+            self.get_total_revenue(ind)
             self.get_revenue(ind)
             self.get_other_revenue(ind)
-        
+            #self.get_cost_of_revenue(ind)
+            
         #button = driver.find_element_by_class_name()
 
         #driver = webdriver.Chrome()
@@ -30,8 +32,11 @@ class IncomeStatement(BaseScrapper):
             year = i.text[0:4]
             month = i.text[4:]
 
-    def get_total_revenue(self):
-        pass
+    def get_total_revenue(self, ind):
+        tr = self._html[1].findAll("tr")[0]
+        print(tr)
+        #td = tr.findAll("td")[ind].text
+        #print(td)
             
     def get_revenue(self, ind):
         tr = self._html[1].findAll("tr")[0]
@@ -41,6 +46,10 @@ class IncomeStatement(BaseScrapper):
         tr = self._html[1].findAll("tr")[1]
         td = tr.findAll("td")[ind].text
         print(td)
+
+    def get_cost_of_revenue(self, ind):
+        tr = self._html[1].findAll("tr")[2]
+        print(tr)
 
 def main():
 
