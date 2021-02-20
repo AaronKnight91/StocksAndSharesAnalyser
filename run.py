@@ -100,10 +100,9 @@ def scrape_data(today, l):
                          "dividend_yield":company._dividend_yield,
                          "payout_ratio":company._payout_ratio}
                     l.append(d)
-                    
-                    cdb = CompanyDatabase(os.path.abspath("%s/%s" % (args.databases,args.savedatabase)), sql_table_name)
-                    cdb.insert(today,
-                               float(company._pe_ratio),
+
+                    cdb = CompanyDatabase(today, os.path.abspath("%s/%s" % (args.databases,args.savedatabase)), sql_table_name)
+                    cdb.insert(float(company._pe_ratio),
                                float(company._ps_ratio),
                                float(company._cash_flow),
                                float(company._free_cash_flow),
@@ -183,8 +182,9 @@ def run_analysis(data):
     print("# Analysing results...")
     analysis = AnalyseRatios(args.analysis,df)
     analysis.analyse()
-    analysis.save_output()
-
+    #analysis.save_output()
+    analysis.save_to_csv()
+    
 def check_arguments():
 
     parser = argparse.ArgumentParser(description="Arguments for the Investment App")
@@ -199,7 +199,7 @@ def check_arguments():
     parser.add_argument("--analysis","-a", type=str,help="The path where the analysed csv files will be saved",default="/home/aaron/investment_app/data/analysis")
 
     parser.add_argument("--indata","-id",type=str,help="The csv file that will be used to get the data from",default="freetrade_uk_shares.csv")
-    parser.add_argument("--savedatabase","-sb",type=str,help="The database in which company data will be saved",default="companies.db")
+    parser.add_argument("--savedatabase","-sb",type=str,help="The database in which company data will be saved",default="lse_companies_2020_ratios.db")
     
     args = parser.parse_args()
     

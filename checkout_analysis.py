@@ -13,7 +13,7 @@ def check_args(today):
 
     parser = argparse.ArgumentParser(description='Open analysis files.')
 
-    parser.add_argument("--path","-p",type=str,help="The directory in which your csv is saved",default="/home/aaron/investment_app/data/analysis")
+    parser.add_argument("--path","-p",type=str,help="The directory in which your csv is saved",default="/home/aaron/investment_app/data/analysis/outputs/%s/%s" % (today[:4],today[4:6]))
     parser.add_argument("--file","-f",type=str,help="The csv you wish to read into a data frame",default="%s_analysed_companies.csv" % today)
 
     args = parser.parse_args()
