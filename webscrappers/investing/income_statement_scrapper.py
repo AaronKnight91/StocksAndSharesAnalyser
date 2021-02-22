@@ -12,14 +12,14 @@ class IncomeStatement(BaseScrapper):
         for ind, i in enumerate(self._th):
             if ind == 0:
                 continue
-            self.get_periods(i)
-            self.get_total_revenue(ind)
-            self.get_revenue(ind)
-            self.get_other_revenue(ind)
-            self.get_cost_of_revenue(ind)
-            self.get_gross_profit(ind)
-            self.get_total_operating_expenses(ind)
-            self.get_total_sga_expenses_total(ind+1)
+            self._period = self.get_periods(i)
+            self._total_revenue = self.get_total_revenue(ind)
+            self._revenue = self.get_revenue(ind)
+            self._other_revenue = self.get_other_revenue(ind)
+            self._cost_of_revenue = self.get_cost_of_revenue(ind)
+            self._gross_profit = self.get_gross_profit(ind)
+            self._total_operating_expenses = self.get_total_operating_expenses(ind)
+            self._total_sga_expenses = self.get_total_sga_expenses(ind+1)
             self.get_research_and_development(ind)
             self.get_depreciation(ind)
             self.get_interest_expense(ind)
@@ -62,31 +62,31 @@ class IncomeStatement(BaseScrapper):
 
     def get_total_revenue(self, ind):
         td = self._tr[10].findAll("td")[ind]
-        #print(td.text)
+        return td.text
             
     def get_revenue(self, ind):
         td = self._tr[11].findAll("td")[ind]
-        #print(td.text)
+        return td.text
 
     def get_other_revenue(self, ind):
         td = self._tr[12].findAll("td")[ind]
-        #print(td.text)
+        return td.text
         
     def get_cost_of_revenue(self, ind):
         td = self._tr[13].findAll("td")[ind]
-        #print(td.text)
+        return td.text
 
     def get_gross_profit(self, ind):
         td = self._tr[14].findAll("td")[ind]
-        #print(td.text)
+        return td.text
 
     def get_total_operating_expenses(self, ind):
         td = self._tr[15].findAll("td")[ind]
-        #print(td.text)
+        return td.text
 
-    def get_total_sga_expenses_total(self, ind):
+    def get_total_sga_expenses(self, ind):
         td = self._tr[16].findAll("td")[ind]
-        #print(td.text)
+        return td.text
 
     def get_research_and_development(self, ind):
         td = self._tr[17].findAll("td")[ind]
