@@ -1,14 +1,13 @@
 from selenium import webdriver
-from webscrappers.base_scrapper import BaseScrapper
+from base_scrapper import BaseScrapper
 
 class IncomeStatement(BaseScrapper):
 
     def __init__(self, webpage):
         BaseScrapper.__init__(self, webpage)
-        self._html = self._soup.find_all("table", {"class":"genTbl reportTbl"})
-        self._th = self._html[0].find_all("th")
-        self._button = self._soup.find_all("a",{"class","newBtn toggleButton LightGray"})
-
+        self._table = self._soup.find_all("table", {"class":"genTbl reportTbl"})
+        self._th = self._table[0].find_all("th")
+        self._tr = self._soup.find_all("tr")
 
         for ind, i in enumerate(self._th):
             if ind == 0:
@@ -17,7 +16,10 @@ class IncomeStatement(BaseScrapper):
             self.get_total_revenue(ind)
             self.get_revenue(ind)
             self.get_other_revenue(ind)
-            #self.get_cost_of_revenue(ind)
+            self.get_cost_of_revenue(ind)
+            self.get_gross_profit(ind)
+            self.get_total_operating_expenses(ind)
+            self.get_total_sga_expenses_total(ind+1)
             
         #button = driver.find_element_by_class_name()
 
@@ -33,23 +35,112 @@ class IncomeStatement(BaseScrapper):
             month = i.text[4:]
 
     def get_total_revenue(self, ind):
-        tr = self._html[1].findAll("tr")[0]
-        print(tr)
-        #td = tr.findAll("td")[ind].text
-        #print(td)
+        td = self._tr[10].findAll("td")[ind]
+        #print(td.text)
             
     def get_revenue(self, ind):
-        tr = self._html[1].findAll("tr")[0]
-        td = tr.findAll("td")[ind].text
+        td = self._tr[11].findAll("td")[ind]
+        #print(td.text)
 
     def get_other_revenue(self, ind):
-        tr = self._html[1].findAll("tr")[1]
-        td = tr.findAll("td")[ind].text
-        print(td)
-
+        td = self._tr[12].findAll("td")[ind]
+        #print(td.text)
+        
     def get_cost_of_revenue(self, ind):
-        tr = self._html[1].findAll("tr")[2]
-        print(tr)
+        td = self._tr[13].findAll("td")[ind]
+        #print(td.text)
+
+    def get_gross_profit(self, ind):
+        td = self._tr[14].findAll("td")[ind]
+        #print(td.text)
+
+    def get_total_operating_expenses(self, ind):
+        td = self._tr[15].findAll("td")[ind]
+        #print(td.text)
+
+    def get_total_sga_expenses_total(self, ind):
+        td = self._tr[16].findAll("td")[ind]
+        #print(td.text)
+
+    def get_research_and_development(self, ind):
+        td = self._tr[17].findAll("td")[ind]
+        #print(td.text)
+
+    def get_depreciation(self, ind):
+        td = self._tr[18].findAll("td")[ind]
+
+    def get_interest_expense(self, ind):
+        td = self._tr[19].findAll("td")[ind]
+
+    def get_unusual_expense(self, ind):
+        td = self._tr[20].findAll("td")[ind]
+
+    def get_other_expenses(self, ind):
+        td = self._tr[21].findAll("td")[ind]
+
+    def get_operating_income(self, ind):
+        td = self._tr[22].findAll("td")[ind]
+
+    def get_interest_income(self, ind):
+        td = self._tr[23].findAll("td")[ind]
+
+    def get_gain_on_sale(self, ind):
+        td = self._tr[24].findAll("td")[ind]
+
+    def get_other_net(self, ind):
+        td = self._tr[25].findAll("td")[ind]
+
+    def get_net_income_before_taxes(self, ind):
+        td = self._tr[26].findAll("td")[ind]
+
+    def get_provision_income_taxes(self, ind):
+        td = self._tr[27].findAll("td")[ind]
+
+    def get_net_income_taxes(self, ind):
+        td = self._tr[28].findAll("td")[ind]
+
+    def get_minority_interest(self, ind):
+        td = self._tr[29].findAll("td")[ind]
+
+    def get_equity_in_affiliates(self, ind):
+        td = self._tr[30].findAll("td")[ind]
+
+    def get_us_gaap_adjustment(self, ind):
+        td = self._tr[31].findAll("td")[ind]
+
+    def get_net_income_before_extraordinary_items(self, ind):
+        td = self._tr[32].findAll("td")[ind]
+
+    def get_total_extraordinary_items(self, ind):
+        td = self._tr[33].findAll("td")[ind]
+
+    def get_net_income(self, ind):
+        td = self._tr[34].findAll("td")[ind]
+
+    def get_total_adjustments_to_net_income(self, ind):
+        td = self._tr[36].findAll("td")[ind]
+
+    def get_income_aval_to_common(self, ind):
+        td = self._tr[37].findAll("td")[ind]
+
+    def get_dilution_adjustment(self, ind):
+        td = self._tr[38].findAll("td")[ind]
+
+    def get_diluted_net_income(self, ind):
+        td = self._tr[39].findAll("td")[ind]
+
+    def get_diluted_weighted_average_shares(self, ind):
+        td = self._tr[40].findAll("td")[ind]
+
+    def get_diluted_eps(self, ind):
+        td = self._tr[41].findAll("td")[ind]
+
+    def get_dps(self, ind):
+        td = self._tr[42].findAll("td")[ind]
+
+    def get_diluted_normalised_eps(self, ind):
+        td = self._tr[43].findAll("td")[ind]
+
 
 def main():
 
