@@ -1,10 +1,13 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from base_scrapper import BaseScrapper
 
 class IncomeStatement(BaseScrapper):
 
     def __init__(self, webpage):
         BaseScrapper.__init__(self, webpage)
+
+        # Scrape quartly income statements
         self._table = self._soup.find_all("table", {"class":"genTbl reportTbl"})
         self._th = self._table[0].find_all("th")
         self._tr = self._soup.find_all("tr")
@@ -49,10 +52,15 @@ class IncomeStatement(BaseScrapper):
             
         #button = driver.find_element_by_class_name()
 
-        #driver = webdriver.Chrome()
+        #option = webdriver.ChromeOptions()
+        #option.add_argument('headless')
+        #driver = webdriver.Chrome(options=option)
         #driver.get(webpage)
+        #button = driver.find_element_by_xpath("//a[@class='newBtn toggleButton LightGray']")
+        #print(len(button))
+        #button.click()
         #print(driver.page_source)
-
+        
         #button = driver.find_element_by_css_selector("newBtn toggleButton LightGray")
 
 
