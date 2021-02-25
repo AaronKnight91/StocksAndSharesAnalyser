@@ -28,13 +28,13 @@ class IncomeStatement(BaseScrapper):
             self._total_other_current_assets = self.get_total_other_current_assets(ind)
             self._total_assets = self.get_total_assets(ind)
             self._total_net_ppe = self.get_total_net_ppe(ind)
-            self._operating_income = self.get_operating_income(ind)
-            self._interest_income = self.get_interest_income(ind)
-            self._gain_on_sale = self.get_gain_on_sale(ind)
-            self._other_net = self.get_other_net(ind)
-            self._net_income_before_taxes = self.get_net_income_before_taxes(ind)
-            self._provision_income_taxes = self.get_provision_income_taxes(ind)
-            self._net_income_taxes = self.get_net_income_taxes(ind)
+            self._total_accumulated_depreciation = self.get_total_accumulated_depreciation(ind)
+            self._net_goodwill = self.get_net_goodwill(ind)
+            self._net_intangibles = self.get_net_intangibles(ind)
+            self._long_term_investments = self.get_long_term_investments(ind)
+            self._long_term_note_receivables = self.get_long_term_note_receivables(ind)
+            self._total_other_long_term_assets = self.get_total_other_long_term_assets(ind)
+            self._total_other_assets = self.get_total_other_assets(ind)
             self._minority_interest = self.get_minority_interest(ind)
             self._equity_in_affiliates = self.get_equity_in_affiliates(ind)
             self._us_gaap_adjustment = self.get_us_gaap_adjustment(ind)
@@ -116,31 +116,31 @@ class IncomeStatement(BaseScrapper):
         td = self._tr[21].findAll("td")[ind]
         return td.text
 
-    def get_operating_income(self, ind):
+    def get_total_accumulated_depreciation(self, ind):
         td = self._tr[22].findAll("td")[ind]
         return td.text
 
-    def get_interest_income(self, ind):
+    def get_net_goodwill(self, ind):
         td = self._tr[23].findAll("td")[ind]
         return td.text
 
-    def get_gain_on_sale(self, ind):
+    def get_net_intangibles(self, ind):
         td = self._tr[24].findAll("td")[ind]
         return td.text
 
-    def get_other_net(self, ind):
+    def get_long_term_investments(self, ind):
         td = self._tr[25].findAll("td")[ind]
         return td.text
 
-    def get_net_income_before_taxes(self, ind):
+    def get_long_term_note_receivables(self, ind):
         td = self._tr[26].findAll("td")[ind]
         return td.text
 
-    def get_provision_income_taxes(self, ind):
+    def get_total_other_long_term_assets(self, ind):
         td = self._tr[27].findAll("td")[ind]
         return td.text
 
-    def get_net_income_taxes(self, ind):
+    def get_total_other_assets(self, ind):
         td = self._tr[28].findAll("td")[ind]
         return td.text
 
