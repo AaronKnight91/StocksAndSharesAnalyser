@@ -26,6 +26,7 @@ class IncomeStatement(BaseScrapper):
             self._total_inventory = self.get_total_inventory(ind)
             self._prepaid_expenses = self.get_prepaid_expenses(ind)
             self._total_other_current_assets = self.get_total_other_current_assets(ind)
+
             self._total_assets = self.get_total_assets(ind)
             self._total_net_ppe = self.get_total_net_ppe(ind)
             self._total_accumulated_depreciation = self.get_total_accumulated_depreciation(ind)
@@ -35,20 +36,36 @@ class IncomeStatement(BaseScrapper):
             self._long_term_note_receivables = self.get_long_term_note_receivables(ind)
             self._total_other_long_term_assets = self.get_total_other_long_term_assets(ind)
             self._total_other_assets = self.get_total_other_assets(ind)
+
+            self._total_current_liabilities = self.get_total_current_liabilities(ind)
+            self._accounts_payable = self.get_accounts_payable(ind)
+            self._payable_accrued = self.get_payable_accrued(ind)
+            self._accrued_expenses = self.get_accrued_expenses(ind)
+            self._short_term_debt = self.get_short_term_debt(ind)
+            self._capital_leases = self.get_capital_leases(ind)
+            self._total_other_current_liabilities = self.get_total_other_current_liabilities(ind)
+            
+            self._total_liabilities = self.get_total_liabilities(ind)
+            self._total_long_term_debt = self.get_total_long_term_debt(ind)
+            self._capital_lease_obligations = self.get_capital_lease_obligations(ind)
+            self._deferred_income_tax = self.get_deferred_income_tax(ind)
             self._minority_interest = self.get_minority_interest(ind)
-            self._equity_in_affiliates = self.get_equity_in_affiliates(ind)
-            self._us_gaap_adjustment = self.get_us_gaap_adjustment(ind)
-            self._net_income_before_extra_items = self.get_net_income_before_extraordinary_items(ind)
-            self._total_extra_items = self.get_total_extraordinary_items(ind)
-            self._new_income = self.get_net_income(ind)
-            self._total_adjustments_to_net_income = self.get_total_adjustments_to_net_income(ind)
-            self._income_aval_to_common = self.get_income_aval_to_common(ind)
-            self._dilution_adjustment = self.get_dilution_adjustment(ind)
-            self._diluted_net_income = self.get_diluted_net_income(ind)
-            self._diluted_weighted_average_shares = self.get_diluted_weighted_average_shares(ind)
-            self._diluted_eps = self.get_diluted_eps(ind)
-            self._dps = self.get_dps(ind)
-            self._diluted_normalised_eps = self.get_diluted_normalised_eps(ind)
+            self._total_other_liabilities = self.get_total_other_liabilities(ind)
+
+            self._total_equity = self.get_total_equity(ind)
+            self._total_redeemable_preferred_stock = self.get_total_redeemable_preferred_stock(ind)
+            self._preferred_stock_non_redeemable = self.get_preferred_stock_non_redeemable(ind)
+            self._total_common_stock = self.get_total_common_stock(ind)
+            self._additional_pain_in_capital = self.get_additional_pain_in_capital(ind)
+            self._retained_earnings = self.get_retained_earnings(ind)
+            self._common_treasury_stock = self.get_common_treasury_stock(ind)
+            self._esop_debt_guarantee = self.get_esop_debt_guarantee(ind)
+            self._unrealised_gain = self.get_unrealised_gain(ind)
+            self._total_other_equity = self.get_total_other_equity(ind)
+
+            self._total_liabilities_and_shareholders_equity = self.get_total_liabilities_and_shareholders_equity(ind)
+            self._total_common_shares_outstanding = self.get_total_common_shares_outstanding(ind)
+            self._total_preferred_shares_outstanding = self.get_total_preferred_shares_outstanding(ind)
             
         #button = driver.find_element_by_class_name()
 
@@ -144,62 +161,110 @@ class IncomeStatement(BaseScrapper):
         td = self._tr[28].findAll("td")[ind]
         return td.text
 
-    def get_minority_interest(self, ind):
+    def get_total_current_liabilities(self, ind):
         td = self._tr[29].findAll("td")[ind]
         return td.text
-
-    def get_equity_in_affiliates(self, ind):
+        
+    def get_accounts_payable(self, ind):
         td = self._tr[30].findAll("td")[ind]
         return td.text
-
-    def get_us_gaap_adjustment(self, ind):
+        
+    def get_payable_accrued(self, ind):
         td = self._tr[31].findAll("td")[ind]
         return td.text
-
-    def get_net_income_before_extraordinary_items(self, ind):
+        
+    def get_accrued_expenses(self, ind):
         td = self._tr[32].findAll("td")[ind]
         return td.text
 
-    def get_total_extraordinary_items(self, ind):
+    def get_short_term_debt(self, ind):
         td = self._tr[33].findAll("td")[ind]
         return td.text
-
-    def get_net_income(self, ind):
+        
+    def get_capital_leases(self, ind):
         td = self._tr[34].findAll("td")[ind]
         return td.text
 
-    def get_total_adjustments_to_net_income(self, ind):
+    def get_total_other_current_liabilities(self, ind):
+        td = self._tr[35].findAll("td")[ind]
+        return td.text
+            
+    def get_total_liabilities(self, ind):
         td = self._tr[36].findAll("td")[ind]
         return td.text
-
-    def get_income_aval_to_common(self, ind):
+        
+    def get_total_long_term_debt(self, ind):
         td = self._tr[37].findAll("td")[ind]
         return td.text
-
-    def get_dilution_adjustment(self, ind):
+        
+    def get_capital_lease_obligations(self, ind):
         td = self._tr[38].findAll("td")[ind]
         return td.text
-
-    def get_diluted_net_income(self, ind):
+        
+    def get_deferred_income_tax(self, ind):
         td = self._tr[39].findAll("td")[ind]
         return td.text
-
-    def get_diluted_weighted_average_shares(self, ind):
+        
+    def get_minority_interest(self, ind):
         td = self._tr[40].findAll("td")[ind]
         return td.text
-
-    def get_diluted_eps(self, ind):
+        
+    def get_total_other_liabilities(self, ind):
         td = self._tr[41].findAll("td")[ind]
         return td.text
-
-    def get_dps(self, ind):
+        
+    def get_total_equity(self, ind):
         td = self._tr[42].findAll("td")[ind]
         return td.text
-
-    def get_diluted_normalised_eps(self, ind):
+        
+    def get_total_redeemable_preferred_stock(self, ind):
         td = self._tr[43].findAll("td")[ind]
         return td.text
+        
+    def get_preferred_stock_non_redeemable(self, ind):
+        td = self._tr[44].findAll("td")[ind]
+        return td.text
+        
+    def get_total_common_stock(self, ind):
+        td = self._tr[45].findAll("td")[ind]
+        return td.text
+        
+    def get_additional_pain_in_capital(self, ind):
+        td = self._tr[46].findAll("td")[ind]
+        return td.text
+        
+    def get_retained_earnings(self, ind):
+        td = self._tr[47].findAll("td")[ind]
+        return td.text
+        
+    def get_common_treasury_stock(self, ind):
+        td = self._tr[48].findAll("td")[ind]
+        return td.text
+        
+    def get_esop_debt_guarantee(self, ind):
+        td = self._tr[49].findAll("td")[ind]
+        return td.text
+        
+    def get_unrealised_gain(self, ind):
+        td = self._tr[50].findAll("td")[ind]
+        return td.text
+        
+    def get_total_other_equity(self, ind):
+        td = self._tr[51].findAll("td")[ind]
+        return td.text
 
+    def get_total_liabilities_and_shareholders_equity(self, ind):
+        td = self._tr[52].findAll("td")[ind]
+        return td.text
+        
+    def get_total_common_shares_outstanding(self, ind):
+        td = self._tr[53].findAll("td")[ind]
+        return td.text
+        
+    def get_total_preferred_shares_outstanding(self, ind):
+        td = self._tr[54].findAll("td")[ind]
+        return td.text
+            
 
 def main():
 
