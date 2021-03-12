@@ -1,6 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from base_scrapper import BaseScrapper
+from webscrappers.base_scrapper import BaseScrapper
 
 class IncomeStatement(BaseScrapper):
 
