@@ -1,4 +1,4 @@
-from base_scrapper import BaseScrapper
+from webscrappers.base_scrapper import BaseScrapper
 
 class Ratios(BaseScrapper):
 
