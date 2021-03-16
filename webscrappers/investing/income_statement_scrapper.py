@@ -16,30 +16,21 @@ class IncomeStatement(BaseScrapper):
             if ind == 0:
                 continue
             self._period = self.get_periods(i)
-            self._total_revenue = self.get_total_revenue(ind)
-            self._revenue = self.get_revenue(ind)
-            self._other_revenue = self.get_other_revenue(ind)
-            self._cost_of_revenue = self.get_cost_of_revenue(ind)
 
-            self._gross_profit = self.get_gross_profit(ind)
+            self._net_interest_income = self.get_net_interest_income(ind)
+            self._bank_interest_income = self.get_bank_interest_income(ind)
+            self._total_interest_expense = self.get_total_interest_expense(ind)
+            
+            self._loan_loss_provision = self.get_loan_loss_provision(ind)
 
-            self._total_operating_expenses = self.get_total_operating_expenses(ind)
-            self._total_sga_expenses = self.get_total_sga_expenses(ind+1)
-            self._research_and_development = self.get_research_and_development(ind)
-            self._depreciation = self.get_depreciation(ind)
-            self._interest_expense = self.get_interest_expense(ind)
-            self._unusual_expense = self.get_unusual_expense(ind)
-            self._other_expenses = self.get_other_expenses(ind)
-
-            self._operating_income = self.get_operating_income(ind)
-            self._interest_income = self.get_interest_income(ind)
-            self._gain_on_sale = self.get_gain_on_sale(ind)
-            self._other_net = self.get_other_net(ind)
-
+            self._net_interest_income_after_loan_provision = self.get_net_interest_income_after_loan_provision(ind)
+            self._bank_non_interest_income = self.get_bank_non_interest_income(ind)
+            self._bank_non_interest_expense = self.get_bank_non_interest_expense(ind+1)
+            
             self._net_income_before_taxes = self.get_net_income_before_taxes(ind)
-            self._provision_income_taxes = self.get_provision_income_taxes(ind)
+            self._provision_for_income_taxes = self.get_provision_for_income_taxes(ind)
 
-            self._net_income_taxes = self.get_net_income_taxes(ind)
+            self._net_income_after_taxes = self.get_net_income_after_taxes(ind)
             self._minority_interest = self.get_minority_interest(ind)
             self._equity_in_affiliates = self.get_equity_in_affiliates(ind)
             self._us_gaap_adjustment = self.get_us_gaap_adjustment(ind)
@@ -47,7 +38,7 @@ class IncomeStatement(BaseScrapper):
             self._net_income_before_extra_items = self.get_net_income_before_extraordinary_items(ind)
             self._total_extra_items = self.get_total_extraordinary_items(ind)
 
-            self._new_income = self.get_net_income(ind)
+            self._net_income = self.get_net_income(ind)
             self._total_adjustments_to_net_income = self.get_total_adjustments_to_net_income(ind)
 
             self._income_aval_to_common = self.get_income_aval_to_common(ind)
