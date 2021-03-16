@@ -1,5 +1,6 @@
 from datetime import datetime
 import pandas as pd
+import os
 
 class AnalyseRatios:
 
@@ -40,10 +41,11 @@ class AnalyseRatios:
                                                     self._l.append(data)
                                                 self._df.drop(self._df.index[index], inplace=True)
                                             except Exception as error:
-                                                print("[ERROR]: Skipping company")
+                                                print("[ERROR]: Skipping %s" % row["Company Name"])
                                                 print(error)
 
             self._new_df = pd.DataFrame(self._l, columns = self._columns)
+            self._new_df.set_index("Company Name", inplace=True)
 
     def save_output(self):
         self._new_df.to_csv("%s/%s_analysed_companies.csv" % (self._opath,self._today))
@@ -81,7 +83,17 @@ class AnalyseRatios:
         self._df.drop(self._df[self._df.payout_ratio < 0].index, inplace=True)
 
     def save_to_csv(self):
-        self._df.to_csv("%s/analysis/%s_analysed_companies.csv" % (self._opath,self._today))
+        year = self._today[:4]
+        month = self._today[4:6]
+        self.create_file_path(year, month)
+        self._new_df.to_csv("%s/outputs/%s/%s/%s_analysed_companies.csv" % (self._opath,year,month,self._today))
         
     def append_to_csv(self):
-        self._df.to_csv("%s/analysis/%s_analysed_companies.csv" % (self._opath,self._today), mode="a", header=False)
+        year = self._today[:4]
+        month = self._today[4:6]
+        self.create_file_path(year, month)
+        self._new_df.to_csv("%s/outputs/%s/%s/%s_analysed_companies.csv" % (self._opath,year,month,self._today), mode="a", header=False)
+
+    def create_file_path(self, year, month):
+        if not os.path.exists("%s/outputs/%s/%s" % (self._opath,year,month)):
+            os.makedirs("%s/outputs/%s/%s" % (self._opath,year,month))

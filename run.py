@@ -1,14 +1,19 @@
+#!/usr/bin/env python3
+
 import argparse
 import csv
 import time
 from datetime import datetime
 import pandas as pd
+import os
 
 from company import Company
 from company_database import CompanyDatabase
 from analysis import AnalyseRatios
+from stock_tracker import OwnedStocks
 
 def run(args):
+
     today = datetime.now().strftime("%Y%m%d")
     l = []
 
@@ -18,12 +23,53 @@ def run(args):
     if not args.noanalysis or not args.noscrapping:
         run_analysis(l)
 
+    if args.stocktracker == "purchases":
+        while True:
+            company = input("Please enter the name of the company you have bought: ")
+            date = input("Please enter the date you bought the shares using the YYYY/MM/DD format: ")
+            portfolio = input("What portfolio is the company part of? ")
+            num_shares = input("Please enter the number of shares you bought: ")
+            price = input("Please enter the price at which you bought the shares: ")
+            total_cost = input("Please enter the total cost of the transaction: ")
+
+            share = OwnedStocks(str(company))#, trigger_level = -0.25)
+            share.get_new_purchase(str(date), str(portfolio), float(num_shares), float(price), float(total_cost))
+            share.calc_average_price()
+            share.insert_purchases(str(date), str(portfolio), float(num_shares), float(price), float(total_cost))
+
+            q = input("Do you want to add another purchase (Y/N)?: ")
+            if str(q).upper() == "N":
+                break
+            
+    elif args.stocktracker == "dividends":
+        while True:
+            company = input("Please enter the name of the company you have bought: ")
+            date = input("Please enter the date you were paid this dividend using the YYYY/MM/DD format: ")
+            portfolio = input("What portfolio is the company part of? ")
+            div_type = input("What type of dividend is this? ")
+            dividend_per_share = input("Please enter the vale of the dividend per share: ")
+            total_dividend = input("Please enter the value of the total dividend payment: ")
+
+            share = OwnedStocks(str(company), table="dividends")
+            share.get_new_dividend(str(date), str(portfolio), str(div_type), float(dividend_per_share), float(total_dividend))
+            share.insert_dividend(str(date), str(portfolio), str(div_type), float(dividend_per_share), float(total_dividend))
+            share.calc_total_dividend()
+
+            print("Total Dividend to date: ", share._total_dividend)
+
+            q = input("Do you want to add another dividend payment (Y/N)?: ")
+            if str(q).upper() == "N":
+                break
+        
 def scrape_data(today, l):
 
-    df = pd.read_csv("%s/%s" % (args.input, args.indata), encoding = "ISO-8859-1")
-
+    df = pd.read_csv(os.path.abspath("%s/%s" % (args.input, args.indata)), encoding = "ISO-8859-1")
+    if args.indata == "lse_shares_list.csv":
+        df = df.dropna(axis=0, subset=['Ratios Investing'])        
+    
+    loops = 0
     length = len(df)
-    while length > 0:
+    while length > 0 or loops < 2:#10:
         length = len(df)
         for index, row in df.iterrows():
             print("# Scrapping data for %s" % row["Company Name"])
@@ -31,7 +77,18 @@ def scrape_data(today, l):
             sql_table_name = string_converter(row["Company Name"])
 
             try:
-                company = Company(row["Investing.com"])
+                if args.indata == "lse_shares_list.csv":
+                    if row["Ratios Investing"] == "None" or row["Ratios Investing"] == "N/A":
+                        df.drop(index, inplace=True)
+                        continue
+                else:
+                    if row["Investing.com"] == "None":
+                        df.drop(index, inplace=True)
+                        continue
+                if args.indata == "lse_shares_list.csv":
+                    company = Company(row["Ratios Investing"])
+                else:
+                    company = Company(row["Investing.com"])
                 if not args.noanalysis:
                     d = {}
                     d = {"Company Name": row[0],
@@ -43,10 +100,9 @@ def scrape_data(today, l):
                          "dividend_yield":company._dividend_yield,
                          "payout_ratio":company._payout_ratio}
                     l.append(d)
-                    
-                    cdb = CompanyDatabase("%s/%s" % (args.databases,args.savedatabase), sql_table_name)
-                    cdb.insert(today,
-                               float(company._pe_ratio),
+
+                    cdb = CompanyDatabase(today, os.path.abspath("%s/%s" % (args.databases,args.savedatabase)), sql_table_name)
+                    cdb.insert(float(company._pe_ratio),
                                float(company._ps_ratio),
                                float(company._cash_flow),
                                float(company._free_cash_flow),
@@ -98,10 +154,12 @@ def scrape_data(today, l):
                     
                     cdb.__del__()
                     df.drop(index, inplace=True)
-                    time.sleep(1) # Make programme sleep for 1 second
             except Exception as error:                                                                                                               
                 print("[ERROR]: Moving on to next company. This company will be attempted again later.")
 
+            loops += 1
+            time.sleep(1) # Make programme sleep for 1 second
+                    
 def string_converter(input_string):
 
     d = { 0 : 'zero', 1 : 'one', 2 : 'two', 3 : 'three', 4 : 'four', 5 : 'five', 6 : 'six', 7 : 'seven', 8 : 'eight', 9 : 'nine'}
@@ -124,22 +182,24 @@ def run_analysis(data):
     print("# Analysing results...")
     analysis = AnalyseRatios(args.analysis,df)
     analysis.analyse()
-    analysis.save_output()
-
+    #analysis.save_output()
+    analysis.save_to_csv()
+    
 def check_arguments():
 
     parser = argparse.ArgumentParser(description="Arguments for the Investment App")
 
     parser.add_argument("--noscrapping","-ns",action="store_true",help="This argument will run the programme without scrapping data. Also, the analysis will not run.")
+    parser.add_argument("--stocktracker","-st",type=str,help="This allows the user to enter purchases or dividends into a sql table",choices=["None","purchases","dividends"],default="None")
     parser.add_argument("--noanalysis","-na",action="store_true",help="This argument will run the programme without analysising the data")
 
     #parser.add_argument("--data","-d",type=str,help="The path that any data will be read from/to will be saved to",default="data")
-    parser.add_argument("--input","-i",type=str,help="The path where your input files are saved",default="./data/inputs")
-    parser.add_argument("--databases","-db",type=str,help="The path where your databases will be stored",default="./data/databases")
-    parser.add_argument("--analysis","-a", type=str,help="The path where the analysed csv files will be saved",default="./data/analysis")
+    parser.add_argument("--input","-i",type=str,help="The path where your input files are saved",default="/home/aaron/investment_app/data/inputs")
+    parser.add_argument("--databases","-db",type=str,help="The path where your databases will be stored",default="/home/aaron/investment_app/data/databases")
+    parser.add_argument("--analysis","-a", type=str,help="The path where the analysed csv files will be saved",default="/home/aaron/investment_app/data/analysis")
 
     parser.add_argument("--indata","-id",type=str,help="The csv file that will be used to get the data from",default="freetrade_uk_shares.csv")
-    parser.add_argument("--savedatabase","-sb",type=str,help="The database in which company data will be saved",default="companies.db")
+    parser.add_argument("--savedatabase","-sb",type=str,help="The database in which company data will be saved",default="lse_companies_2020_ratios.db")
     
     args = parser.parse_args()
     
